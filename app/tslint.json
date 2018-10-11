@@ -1,0 +1,13 @@
+{
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "extends": ["tslint:latest", "tslint-config-prettier"],
+  "rules": {
+    "prettier": true,
+    "interface-name": false,
+    "member-access": false,
+    "no-console": true,
+    "no-implicit-dependencies": [true, ["~"]],
+    "no-submodule-imports": false,
+    "ordered-imports": false
+  }
+}

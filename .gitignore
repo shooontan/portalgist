@@ -1,0 +1,15 @@
+# node
+node_modules
+
+# yarn
+yarn-error.log
+
+# next
+.next
+out
+
+# jest
+coverage
+
+# env
+.env

@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  app:
+    build: ./app
+    container_name: gist-client
+    tty: true
+    ports:
+      - 3000:3000
+    env_file:
+      - ./app/.env
+    volumes:
+      - ./app:/app
+      - yarn-cache:/usr/local/share/.cache/yarn
+
+volumes:
+  yarn-cache:
