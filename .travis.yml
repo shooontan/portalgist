@@ -1,0 +1,25 @@
+language: node_js
+
+node_js:
+  - 10
+
+sudo: false
+
+cache:
+  yarn: true
+  directories:
+    - app/node_modules
+
+install:
+  - yarn --cwd ./app install
+
+jobs:
+  include:
+    - stage: test
+      script:
+        - cd ./app
+        - yarn lint
+        - yarn test
+
+notifications:
+  email: false
