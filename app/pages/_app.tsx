@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Store } from 'redux';
 import createStore from '~/stores/createStore';
 import isServer from '~/libs/isServer';
+import UserAuth from '~/components/organisms/UserAuth';
 
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
 
@@ -46,7 +47,10 @@ class AppWithReduxStore extends App {
     return (
       <Container>
         <Provider store={this.reduxStore}>
-          <Component {...pageProps} />
+          <>
+            <UserAuth />
+            <Component {...pageProps} />
+          </>
         </Provider>
       </Container>
     );

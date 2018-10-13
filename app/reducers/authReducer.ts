@@ -1,20 +1,27 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { logoutUser, loginUserAsyncAction } from '~/actions/authAction';
+import {
+  logoutUserAsyncAction,
+  loginUserAsyncAction,
+} from '~/actions/authAction';
 
-interface AuthInitialState {
+export interface AuthState {
   login: boolean;
   loading: boolean;
   userName: string;
 }
 
-export const authInitialState: AuthInitialState = {
+export const authInitialState: AuthState = {
   login: false,
   loading: false,
   userName: '',
 };
 
 const authReducer = reducerWithInitialState(authInitialState)
-  .case(logoutUser, (state, payload) => ({ ...state, login: payload.login }))
+  .case(logoutUserAsyncAction.done, state => ({
+    ...state,
+    login: false,
+    userName: '',
+  }))
   .case(loginUserAsyncAction.started, state => ({
     ...state,
     loading: true,

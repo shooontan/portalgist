@@ -1,13 +1,27 @@
 import * as act from './authAction';
 
-test('should create logout action', () => {
-  const expected = {
-    type: act.logoutUser.type,
+test('should create logout.started action', () => {
+  const expectedStarted = {
+    type: act.logoutUserAsyncAction.started.type,
+    payload: {},
+  };
+  expect(act.logoutUserAsyncAction.started({})).toEqual(expectedStarted);
+});
+
+test('should create logout.done action', () => {
+  const expectedDone = {
+    type: act.logoutUserAsyncAction.done.type,
     payload: {
-      login: false,
+      params: {},
+      result: {},
     },
   };
-  expect(act.logoutUserAction).toEqual(expected);
+  expect(
+    act.logoutUserAsyncAction.done({
+      params: {},
+      result: {},
+    })
+  ).toEqual(expectedDone);
 });
 
 test('should create login.started action', () => {
