@@ -62,6 +62,7 @@ class UserAuth extends React.PureComponent<Props> {
           params: {},
           error: {
             code: 400,
+            message: error.toString(),
           },
         })
       );

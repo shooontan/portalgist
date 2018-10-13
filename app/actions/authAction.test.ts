@@ -54,23 +54,22 @@ test('should create login.done action', () => {
 });
 
 test('should create login.failed action', () => {
-  const errorCode = 400;
+  const error = {
+    code: 400,
+    message: 'error',
+  };
   const expectedFailed = {
     type: act.loginUserAsyncAction.failed.type,
     payload: {
       params: {},
-      error: {
-        code: errorCode,
-      },
+      error,
     },
     error: true,
   };
   expect(
     act.loginUserAsyncAction.failed({
       params: {},
-      error: {
-        code: errorCode,
-      },
+      error,
     })
   ).toEqual(expectedFailed);
 });
