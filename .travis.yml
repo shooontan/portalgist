@@ -19,6 +19,7 @@ jobs:
       script:
         - cd ./app
         - yarn lint
+        - yarn typecheck
         - yarn test
 
 notifications:

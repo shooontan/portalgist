@@ -10,6 +10,7 @@
     "export": "next build && next export",
     "server": "http-server ./out -p 3000",
     "lint": "tslint -p . -c tslint.json",
+    "typecheck": "tsc --noEmit",
     "test": "jest"
   },
   "dependencies": {
