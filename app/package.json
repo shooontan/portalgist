@@ -14,6 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@octokit/rest": "^15.13.1",
     "@zeit/next-typescript": "^1.1.1",
     "firebase": "^5.5.3",
     "next": "^7.0.1",
