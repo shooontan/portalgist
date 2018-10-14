@@ -3,9 +3,11 @@ import thunkMiddleware from 'redux-thunk';
 import reducer from '~/reducers';
 import isServer from '~/libs/isServer';
 import { authInitialState } from '~/reducers/authReducer';
+import { gistsInitialState } from '~/reducers/gistsReducer';
 
-const RootState = {
+const rootState = {
   auth: authInitialState,
+  gists: gistsInitialState,
 };
 
 const __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ =
@@ -16,7 +18,7 @@ const composeEnhancers =
     ? compose
     : window[__REDUX_DEVTOOLS_EXTENSION_COMPOSE__];
 
-export default function(initialState = RootState) {
+export default function(initialState = rootState) {
   const store = createStore(
     reducer,
     initialState,

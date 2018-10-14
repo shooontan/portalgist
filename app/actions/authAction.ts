@@ -11,7 +11,7 @@ export const logoutUserAsyncAction = actionCreator.async<{}, {}>(
 );
 
 // logout action
-export const logoutUserAction = async (dispatch: Dispatch) => {
+export const logoutUserAction = () => async (dispatch: Dispatch) => {
   try {
     await firebase.auth().signOut();
     dispatch(logoutUserAsyncAction.done({ params: {}, result: {} }));
@@ -28,7 +28,7 @@ export const loginUserAsyncAction = actionCreator.async<
 >('LOGIN_USER_ASYNC');
 
 // login action
-export const loginUserAction = (dispatch: Dispatch) => {
+export const loginUserAction = () => (dispatch: Dispatch) => {
   // login start
   dispatch(loginUserAsyncAction.started({}));
   const provider = new firebase.auth.GithubAuthProvider();
