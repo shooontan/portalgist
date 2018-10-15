@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import firebase from '~/libs/firebase';
 import { loginUserAsyncAction, logoutUserAction } from '~/actions/authAction';
 
 interface Props {
-  dispatch: Dispatch;
+  dispatch: ThunkDispatch<void, void, AnyAction>;
 }
 
 class UserAuth extends React.PureComponent<Props> {
@@ -20,8 +21,7 @@ class UserAuth extends React.PureComponent<Props> {
     firebase.auth().onAuthStateChanged(user => {
       // no login user
       if (!user) {
-        // return dispatch(logoutUserAction);
-        return logoutUserAction(dispatch);
+        return dispatch(logoutUserAction());
       }
       // login user
       const { providerData } = user;

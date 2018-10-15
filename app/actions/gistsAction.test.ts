@@ -1,16 +1,33 @@
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { GistsGetPublicResponse } from '@octokit/rest';
 import * as act from './gistsAction';
 
+const mockStore = configureStore([thunk]);
+
 test('should create fetchGists.started action', () => {
+  const store = mockStore({});
+  store.dispatch(act.fetchGistsAsyncAction.started({}));
+  const actions = store.getActions();
   const expected = {
     type: act.fetchGistsAsyncAction.started.type,
     payload: {},
   };
-  expect(act.fetchGistsAsyncAction.started({})).toEqual(expected);
+  expect(actions[0]).toEqual(expected);
 });
 
 test('should create fetchGists.done action', () => {
+  const store = mockStore({});
   const data = [] as GistsGetPublicResponse;
+  store.dispatch(
+    act.fetchGistsAsyncAction.done({
+      params: {},
+      result: {
+        data,
+      },
+    })
+  );
+  const actions = store.getActions();
   const expected = {
     type: act.fetchGistsAsyncAction.done.type,
     payload: {
@@ -20,21 +37,22 @@ test('should create fetchGists.done action', () => {
       },
     },
   };
-  expect(
-    act.fetchGistsAsyncAction.done({
-      params: {},
-      result: {
-        data,
-      },
-    })
-  ).toEqual(expected);
+  expect(actions[0]).toEqual(expected);
 });
 
 test('should create fetchGists.failed action', () => {
+  const store = mockStore({});
   const error = {
     code: 400,
     message: 'error!!!',
   };
+  store.dispatch(
+    act.fetchGistsAsyncAction.failed({
+      params: {},
+      error,
+    })
+  );
+  const actions = store.getActions();
   const expected = {
     type: act.fetchGistsAsyncAction.failed.type,
     payload: {
@@ -43,10 +61,40 @@ test('should create fetchGists.failed action', () => {
     },
     error: true,
   };
-  expect(
-    act.fetchGistsAsyncAction.started({
-      params: {},
-      error,
-    })
-  ).toEqual(expected);
+  expect(actions[0]).toEqual(expected);
 });
+
+// test('success fetch gists async action', () => {
+//   const store = mockStore({});
+//   // @ts-ignore
+//   store.dispatch(act.fetchGistsAction()).then(() => {
+//     const actions = store.getActions();
+//     expect(actions[0]).toEqual(act.fetchGistsAsyncAction.started({}));
+//     expect(actions[1]).toEqual(
+//       act.fetchGistsAsyncAction.done({
+//         params: {},
+//         result: {
+//           data: [],
+//         },
+//       })
+//     );
+//   });
+// });
+
+// test('failed fetch gists async action', () => {
+//   const store = mockStore({});
+//   // @ts-ignore
+//   store.dispatch(act.fetchGistsAction()).then(() => {
+//     const actions = store.getActions();
+//     expect(actions[0]).toEqual(act.fetchGistsAsyncAction.started({}));
+//     expect(actions[1]).toEqual(
+//       act.fetchGistsAsyncAction.failed({
+//         params: {},
+//         error: {
+//           code: 400,
+//           message: 'error!!!',
+//         },
+//       })
+//     );
+//   });
+// });

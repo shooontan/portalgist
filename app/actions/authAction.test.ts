@@ -1,40 +1,47 @@
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import * as act from './authAction';
 
-test('should create logout.started action', () => {
-  const expectedStarted = {
-    type: act.logoutUserAsyncAction.started.type,
-    payload: {},
-  };
-  expect(act.logoutUserAsyncAction.started({})).toEqual(expectedStarted);
-});
+const mockStore = configureStore([thunk]);
 
 test('should create logout.done action', () => {
-  const expectedDone = {
+  const store = mockStore({});
+  store.dispatch(act.logoutUserAsyncAction.done({ params: {}, result: {} }));
+  const actions = store.getActions();
+  const expected = {
     type: act.logoutUserAsyncAction.done.type,
     payload: {
       params: {},
       result: {},
     },
   };
-  expect(
-    act.logoutUserAsyncAction.done({
-      params: {},
-      result: {},
-    })
-  ).toEqual(expectedDone);
+  expect(actions[0]).toEqual(expected);
 });
 
 test('should create login.started action', () => {
-  const expectedStarted = {
+  const store = mockStore({});
+  store.dispatch(act.loginUserAsyncAction.started({}));
+  const actions = store.getActions();
+  const expected = {
     type: act.loginUserAsyncAction.started.type,
     payload: {},
   };
-  expect(act.loginUserAsyncAction.started({})).toEqual(expectedStarted);
+  expect(actions[0]).toEqual(expected);
 });
 
 test('should create login.done action', () => {
-  const userName = 'octocat';
-  const expectedDone = {
+  const userName = 'username';
+  const store = mockStore({});
+  store.dispatch(
+    act.loginUserAsyncAction.done({
+      params: {},
+      result: {
+        userName,
+      },
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
     type: act.loginUserAsyncAction.done.type,
     payload: {
       params: {},
@@ -43,14 +50,7 @@ test('should create login.done action', () => {
       },
     },
   };
-  expect(
-    act.loginUserAsyncAction.done({
-      params: {},
-      result: {
-        userName,
-      },
-    })
-  ).toEqual(expectedDone);
+  expect(actions[0]).toEqual(expected);
 });
 
 test('should create login.failed action', () => {
@@ -58,7 +58,15 @@ test('should create login.failed action', () => {
     code: 400,
     message: 'error',
   };
-  const expectedFailed = {
+  const store = mockStore({});
+  store.dispatch(
+    act.loginUserAsyncAction.failed({
+      params: {},
+      error,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
     type: act.loginUserAsyncAction.failed.type,
     payload: {
       params: {},
@@ -66,10 +74,5 @@ test('should create login.failed action', () => {
     },
     error: true,
   };
-  expect(
-    act.loginUserAsyncAction.failed({
-      params: {},
-      error,
-    })
-  ).toEqual(expectedFailed);
+  expect(actions[0]).toEqual(expected);
 });
