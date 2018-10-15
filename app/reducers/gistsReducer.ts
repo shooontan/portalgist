@@ -1,10 +1,10 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { GistsGetPublicResponseItem } from '@octokit/rest';
 import { fetchGistsAsyncAction } from '~/actions/gistsAction';
+import { GistsGetAllResponseItem } from '~/libs/octokit';
 
 export interface GistsState {
   gists: {
-    [key: string]: GistsGetPublicResponseItem;
+    [key: string]: GistsGetAllResponseItem;
   };
   timeline: string[];
   loading: boolean;

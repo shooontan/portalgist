@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { GistsGetPublicResponse } from '@octokit/rest';
+import { GistsGetAllResponse } from '~/libs/octokit';
 import * as act from './gistsAction';
 
 const mockStore = configureStore([thunk]);
@@ -18,7 +18,7 @@ test('should create fetchGists.started action', () => {
 
 test('should create fetchGists.done action', () => {
   const store = mockStore({});
-  const data = [] as GistsGetPublicResponse;
+  const data = [] as GistsGetAllResponse;
   store.dispatch(
     act.fetchGistsAsyncAction.done({
       params: {},

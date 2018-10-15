@@ -1,7 +1,6 @@
 import { Dispatch } from 'redux';
 import actionCreatorFactory from 'typescript-fsa';
-import { GistsGetPublicResponse } from '@octokit/rest';
-import octokit from '~/libs/octokit';
+import octokit, { GistsGetAllResponse } from '~/libs/octokit';
 
 const GIST_PREFIX = '@@GIST';
 const actionCreator = actionCreatorFactory(GIST_PREFIX);
@@ -9,7 +8,7 @@ const actionCreator = actionCreatorFactory(GIST_PREFIX);
 // get gist resouce async action
 export const fetchGistsAsyncAction = actionCreator.async<
   {},
-  { data: GistsGetPublicResponse },
+  { data: GistsGetAllResponse },
   { code: number; message: string }
 >('FETCH_GISTS_ASYNC');
 
