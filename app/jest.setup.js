@@ -1,5 +1,6 @@
 require('jest-dom/extend-expect');
 require('react-testing-library/cleanup-after-each');
+require('jest-styled-components');
 
 /**
  * if no this config, warn error following.

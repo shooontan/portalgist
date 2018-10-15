@@ -2505,7 +2505,7 @@ css-to-react-native@^2.0.3:
     fbjs "^0.8.5"
     postcss-value-parser "^3.3.0"
 
-css@^2.2.3:
+css@^2.2.3, css@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/css/-/css-2.2.4.tgz#c646755c73971f2bba6a601e2cf2fd71b1298929"
   integrity sha512-oUnjmWpy0niI3x/mPL8dVEI1l7MnG3+HHyRPHf+YFSbK+svOhXpmSOcDURUh2aOCgl2grzrOPt1nHLuCVFULLw==
@@ -4506,6 +4506,13 @@ jest-snapshot@^23.6.0:
     natural-compare "^1.4.0"
     pretty-format "^23.6.0"
     semver "^5.5.0"
+
+jest-styled-components@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/jest-styled-components/-/jest-styled-components-6.2.1.tgz#63d28c6bf637977509f0e6a57bff0a10f44a48e3"
+  integrity sha512-7Z9TeI97yvI5BA6nn3169V7YwzSJj2fgl7uwE3foL9XxgMyrpTjTAnS0EZEiV8J8iyMFNYvzD6yytmF43/6L1g==
+  dependencies:
+    css "^2.2.4"
 
 jest-util@^23.4.0:
   version "23.4.0"
