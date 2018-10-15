@@ -2,44 +2,25 @@ import App, { Container } from 'next/app';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { Store } from 'redux';
+import { Persistor } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import createStore from '~/stores/createStore';
-import isServer from '~/libs/isServer';
 import UserAuth from '~/components/organisms/UserAuth';
 
 const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
 
-function getOrCreateStore(initialState) {
-  const store = createStore(initialState);
-  if (isServer) {
-    return store;
-  }
-  if (!window[__NEXT_REDUX_STORE__]) {
-    window[__NEXT_REDUX_STORE__] = store;
-  }
-  return store;
-}
-
 class AppWithReduxStore extends App {
-  static async getInitialProps(context) {
-    const reduxStore = getOrCreateStore(undefined);
-    // provide reduxStore
-    context.ctx.reduxStore = reduxStore;
-    let pageProps = {};
-    if (typeof context.Component.getInitialProps === 'function') {
-      pageProps = await context.Component.getInitialProps(context.ctx);
-    }
-    return {
-      Component: context.Component,
-      initialReduxState: reduxStore.getState(),
-      pageProps,
-    };
-  }
-
   reduxStore: Store;
+  persistor: Persistor;
 
   constructor(props) {
     super(props);
-    this.reduxStore = getOrCreateStore(props.initialReduxState);
+    const { store, persistor } = createStore(undefined);
+    if (typeof window !== 'undefined' && !window[__NEXT_REDUX_STORE__]) {
+      window[__NEXT_REDUX_STORE__] = store;
+    }
+    this.reduxStore = store;
+    this.persistor = persistor;
   }
 
   render() {
@@ -47,10 +28,12 @@ class AppWithReduxStore extends App {
     return (
       <Container>
         <Provider store={this.reduxStore}>
-          <>
-            <UserAuth />
-            <Component {...pageProps} />
-          </>
+          <PersistGate persistor={this.persistor}>
+            <>
+              <UserAuth />
+              <Component {...pageProps} />
+            </>
+          </PersistGate>
         </Provider>
       </Container>
     );

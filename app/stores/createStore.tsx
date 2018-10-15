@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { persistStore } from 'redux-persist';
 import reducer from '~/reducers';
 import isServer from '~/libs/isServer';
 import { authInitialState } from '~/reducers/authReducer';
@@ -24,5 +25,6 @@ export default function(initialState = rootState) {
     initialState,
     composeEnhancers(applyMiddleware(thunkMiddleware))
   );
-  return store;
+  const persistor = persistStore(store);
+  return { store, persistor };
 }
