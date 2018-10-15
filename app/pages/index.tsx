@@ -6,9 +6,9 @@ import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import Layout from '~/components/Layout';
-import styled from 'styled-components';
 import { fetchGistsAction } from '~/actions/gistsAction';
 import { AnyAction } from 'redux';
+import GistItem from '~/components/molecules/GistItem';
 
 interface Props {
   dispatch: ThunkDispatch<void, void, AnyAction>;
@@ -40,15 +40,7 @@ class IndexPage extends React.PureComponent<Props> {
   render() {
     const GistItems = this.props.gists.timeline.map(gistId => {
       const gist = this.props.gists.gists[gistId];
-      return (
-        <StyledItem href={gist.html_url} key={gist.id}>
-          <div>
-            <p>{gist.owner.login}</p>
-            <img src={gist.owner.avatar_url} alt="" width="50" height="50" />
-            <p>{gist.description}</p>
-          </div>
-        </StyledItem>
-      );
+      return <GistItem gist={gist} key={gistId} />;
     });
 
     return (
@@ -73,9 +65,3 @@ class IndexPage extends React.PureComponent<Props> {
 }
 
 export default connect(state => state)(IndexPage);
-
-const StyledItem = styled.a`
-  margin: 1em;
-  display: block;
-  border: 1px solid #333;
-`;
