@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot Icon 1`] = `
+.c0 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+<a
+  class="c0"
+  href="https://example.com/"
+/>
+`;
+
+exports[`snapshot Icon 2`] = `
+.c0 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+<a
+  class="c0"
+  href="https://example.com/"
+>
+  TextLink Component
+</a>
+`;
+
+exports[`snapshot Icon 3`] = `
+.c0 {
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+<a
+  class="c0"
+  href="/user?name=username"
+>
+  user name
+</a>
+`;

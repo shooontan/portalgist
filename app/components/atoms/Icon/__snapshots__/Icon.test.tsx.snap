@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot Icon 1`] = `
+.c0 {
+  border-radius: 3px;
+  vertical-align: bottom;
+}
+
+<img
+  class="c0"
+  height="50"
+  src="https://example.com/icon.png"
+  width="50"
+/>
+`;
+
+exports[`snapshot Icon 2`] = `
+.c1 {
+  border-radius: 3px;
+  vertical-align: bottom;
+}
+
+.c0 {
+  display: inline-block;
+  cursor: pointer;
+}
+
+<a
+  class="c0"
+  href="https://example.com/"
+>
+  <img
+    class="c1"
+    height="50"
+    src="https://example.com/icon.png"
+    width="50"
+  />
+</a>
+`;
+
+exports[`snapshot Icon 3`] = `
+.c1 {
+  border-radius: 3px;
+  vertical-align: bottom;
+}
+
+.c0 {
+  display: inline-block;
+  cursor: pointer;
+}
+
+<a
+  class="c0"
+  href="/user?name=username"
+>
+  <img
+    class="c1"
+    height="50"
+    src="https://example.com/icon.png"
+    width="50"
+  />
+</a>
+`;
+
+exports[`snapshot Icon 4`] = `
+.c0 {
+  border-radius: 3px;
+  vertical-align: bottom;
+}
+
+<img
+  alt="icon"
+  class="c0"
+  height="400"
+  src="https://example.com/icon.png"
+  width="400"
+/>
+`;

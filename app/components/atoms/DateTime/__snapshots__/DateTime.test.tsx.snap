@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot DateTime 1`] = `
+.c0 {
+  color: #666;
+  font-size: 12px;
+}
+
+<time
+  class="c0"
+/>
+`;
+
+exports[`snapshot DateTime 2`] = `
+.c0 {
+  color: #666;
+  font-size: 12px;
+}
+
+<time
+  class="c0"
+>
+  2018-10-15T12:09:50Z
+</time>
+`;
+
+exports[`snapshot DateTime 3`] = `
+.c0 {
+  color: #666;
+  font-size: 12px;
+}
+
+<time
+  class="c0"
+  datetime="2018-10-15T12:09:50Z"
+>
+  2018-10-15T12:09:50Z
+</time>
+`;
