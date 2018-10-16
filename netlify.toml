@@ -1,0 +1,4 @@
+[build]
+  base = "app"
+  publish = "app/out"
+  command = "yarn export"
