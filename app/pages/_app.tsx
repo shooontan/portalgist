@@ -7,28 +7,35 @@ import { PersistGate } from 'redux-persist/integration/react';
 import createStore from '~/stores/createStore';
 import UserAuth from '~/components/organisms/UserAuth';
 
-const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__';
-
-class AppWithReduxStore extends App {
-  reduxStore: Store;
+interface Props {
+  store: Store;
   persistor: Persistor;
+}
 
-  constructor(props) {
-    super(props);
-    const { store, persistor } = createStore(undefined);
-    if (typeof window !== 'undefined' && !window[__NEXT_REDUX_STORE__]) {
-      window[__NEXT_REDUX_STORE__] = store;
+const { store, persistor } = createStore(undefined);
+
+class AppWithReduxStore extends App<Props> {
+  static async getInitialProps(appContext) {
+    appContext.ctx.store = store;
+
+    let appProps = {};
+    if (typeof appContext.Component.getInitialProps === 'function') {
+      appProps = await appContext.Component.getInitialProps(appContext.ctx);
     }
-    this.reduxStore = store;
-    this.persistor = persistor;
+
+    return {
+      pageProps: {
+        ...appProps,
+      },
+    };
   }
 
   render() {
     const { Component, pageProps } = this.props;
     return (
       <Container>
-        <Provider store={this.reduxStore}>
-          <PersistGate persistor={this.persistor}>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
             <>
               <UserAuth />
               <Component {...pageProps} />

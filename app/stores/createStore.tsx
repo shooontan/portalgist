@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { persistStore } from 'redux-persist';
-import reducer from '~/reducers';
 import isServer from '~/libs/isServer';
+import reducer, { RootState } from '~/reducers';
 import { authInitialState } from '~/reducers/authReducer';
 import { gistsInitialState } from '~/reducers/gistsReducer';
 
-export const rootState = {
+const rootState: RootState = {
   auth: authInitialState,
   gists: gistsInitialState,
 };

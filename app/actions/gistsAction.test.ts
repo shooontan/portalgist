@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { GistsGetAllResponse } from '~/libs/octokit';
 import * as act from './gistsAction';
 
+const gistId = 'abcdefgist';
 const mockStore = configureStore([thunk]);
 
 test('should create fetchGists.started action', () => {
@@ -57,6 +58,71 @@ test('should create fetchGists.failed action', () => {
     type: act.fetchGistsAsyncAction.failed.type,
     payload: {
       params: {},
+      error,
+    },
+    error: true,
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchGist.started action', () => {
+  const store = mockStore({});
+  store.dispatch(act.fetchGistAsyncAction.started({ gistId }));
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchGistAsyncAction.started.type,
+    payload: {
+      gistId,
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchGist.done action', () => {
+  const result = {
+    files: {},
+    forks: [],
+    history: [],
+  };
+  const store = mockStore({});
+  store.dispatch(
+    act.fetchGistAsyncAction.done({
+      params: {
+        gistId,
+      },
+      result,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchGistAsyncAction.done.type,
+    payload: {
+      params: { gistId },
+      result,
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchGist.failed action', () => {
+  const store = mockStore({});
+  const error = {
+    code: 400,
+    message: 'error!!!',
+  };
+  store.dispatch(
+    act.fetchGistAsyncAction.failed({
+      params: {
+        gistId,
+      },
+      error,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchGistAsyncAction.failed.type,
+    payload: {
+      params: { gistId },
       error,
     },
     error: true,
