@@ -6,7 +6,7 @@ import isServer from '~/libs/isServer';
 import { authInitialState } from '~/reducers/authReducer';
 import { gistsInitialState } from '~/reducers/gistsReducer';
 
-const rootState = {
+export const rootState = {
   auth: authInitialState,
   gists: gistsInitialState,
 };
