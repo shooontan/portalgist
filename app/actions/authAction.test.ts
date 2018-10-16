@@ -31,12 +31,14 @@ test('should create login.started action', () => {
 
 test('should create login.done action', () => {
   const userName = 'username';
+  const photoUrl = 'https://example.com/photo.jpg';
   const store = mockStore({});
   store.dispatch(
     act.loginUserAsyncAction.done({
       params: {},
       result: {
         userName,
+        photoUrl,
       },
     })
   );
@@ -47,6 +49,7 @@ test('should create login.done action', () => {
       params: {},
       result: {
         userName,
+        photoUrl,
       },
     },
   };

@@ -2,9 +2,12 @@ import reducer, { authInitialState } from './authReducer';
 import {
   logoutUserAsyncAction,
   loginUserAsyncAction,
+  setAccessTokenAction,
 } from '~/actions/authAction';
 
 const userName = 'testuser';
+const photoUrl = 'https://example.com/photo.jpg';
+const accessToken = '123456789';
 const error = {
   code: 400,
   message: 'error!!!',
@@ -56,6 +59,7 @@ test('success login', () => {
       params: {},
       result: {
         userName,
+        photoUrl,
       },
     })
   );
@@ -74,4 +78,14 @@ test('failed login', () => {
   );
   expect(state.login).toBe(false);
   expect(state.error).toEqual(error);
+});
+
+test('set access token', () => {
+  const state = reducer(
+    authInitialState,
+    setAccessTokenAction({
+      accessToken,
+    })
+  );
+  expect(state.accessToken).toBe(accessToken);
 });

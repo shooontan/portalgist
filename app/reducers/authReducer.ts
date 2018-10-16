@@ -2,12 +2,15 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
   logoutUserAsyncAction,
   loginUserAsyncAction,
+  setAccessTokenAction,
 } from '~/actions/authAction';
 
 export interface AuthState {
   login: boolean;
   loading: boolean;
   userName: string;
+  photoUrl: string;
+  accessToken: string;
   error: {
     code: number;
     message: string;
@@ -18,6 +21,8 @@ export const authInitialState: AuthState = {
   login: false,
   loading: false,
   userName: '',
+  photoUrl: '',
+  accessToken: '',
   error: null,
 };
 
@@ -26,6 +31,8 @@ const authReducer = reducerWithInitialState(authInitialState)
     ...state,
     login: false,
     userName: '',
+    photoUrl: '',
+    accessToken: '',
     error: null,
   }))
   .case(loginUserAsyncAction.started, state => ({
@@ -33,11 +40,12 @@ const authReducer = reducerWithInitialState(authInitialState)
     loading: true,
     error: null,
   }))
-  .case(loginUserAsyncAction.done, (state, payload) => ({
+  .case(loginUserAsyncAction.done, (state, { result }) => ({
     ...state,
     loading: false,
     login: true,
-    userName: payload.result.userName,
+    userName: result.userName,
+    photoUrl: result.photoUrl,
     error: null,
   }))
   .case(loginUserAsyncAction.failed, (state, { error }) => ({
@@ -47,6 +55,10 @@ const authReducer = reducerWithInitialState(authInitialState)
       code: error.code,
       message: error.message,
     },
+  }))
+  .case(setAccessTokenAction, (state, payload) => ({
+    ...state,
+    accessToken: payload.accessToken,
   }));
 
 export default authReducer;

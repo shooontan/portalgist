@@ -23,7 +23,7 @@ export const logoutUserAction = () => async (dispatch: Dispatch) => {
 // login async action
 export const loginUserAsyncAction = actionCreator.async<
   {},
-  { userName: string },
+  { userName: string; photoUrl: string; accessToken?: string },
   { code: number; message: string }
 >('LOGIN_USER_ASYNC');
 
@@ -37,3 +37,8 @@ export const loginUserAction = () => (dispatch: Dispatch) => {
   // go to login page on firebase
   firebase.auth().signInWithRedirect(provider);
 };
+
+// set access token action
+export const setAccessTokenAction = actionCreator<{ accessToken: string }>(
+  'SET_ACCESS_TOKEN'
+);

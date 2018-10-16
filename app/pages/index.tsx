@@ -7,11 +7,10 @@ import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import Layout from '~/components/Layout';
 import { fetchGistsAction } from '~/actions/gistsAction';
-import { AnyAction } from 'redux';
 import GistItem from '~/components/molecules/GistItem';
 
 interface Props {
-  dispatch: ThunkDispatch<void, void, AnyAction>;
+  dispatch: ThunkDispatch<any, any, any>;
   auth: AuthState;
   gists: GistsState;
 }
