@@ -6,7 +6,7 @@ import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import Layout from '~/components/Layout';
-import { fetchGistsAction } from '~/actions/gistsAction';
+import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 
 interface Props {
@@ -27,7 +27,7 @@ class IndexPage extends React.PureComponent<Props> {
       };
     }
 
-    await dispatch(fetchGistsAction());
+    await dispatch(fetchPublicGistsAction());
 
     return {
       isServer: false,
@@ -37,7 +37,7 @@ class IndexPage extends React.PureComponent<Props> {
   componentDidMount() {
     const { dispatch, isServer } = this.props;
     if (isServer) {
-      dispatch(fetchGistsAction());
+      dispatch(fetchPublicGistsAction());
     }
   }
 
@@ -53,7 +53,7 @@ class IndexPage extends React.PureComponent<Props> {
 
   fetch = () => {
     const { dispatch } = this.props;
-    dispatch(fetchGistsAction());
+    dispatch(fetchPublicGistsAction());
   };
 
   render() {

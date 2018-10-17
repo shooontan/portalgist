@@ -130,6 +130,65 @@ test('should create fetchGist.failed action', () => {
   expect(actions[0]).toEqual(expected);
 });
 
+test('should create fetchPublicGists.started action', () => {
+  const store = mockStore({});
+  store.dispatch(act.fetchPublicGistsAsyncAction.started({}));
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchPublicGistsAsyncAction.started.type,
+    payload: {},
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchPublicGists.done action', () => {
+  const store = mockStore({});
+  const data = [] as GistsGetAllResponse;
+  store.dispatch(
+    act.fetchPublicGistsAsyncAction.done({
+      params: {},
+      result: {
+        data,
+      },
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchPublicGistsAsyncAction.done.type,
+    payload: {
+      params: {},
+      result: {
+        data,
+      },
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchPublicGists.failed action', () => {
+  const store = mockStore({});
+  const error = {
+    code: 400,
+    message: 'error!!!',
+  };
+  store.dispatch(
+    act.fetchPublicGistsAsyncAction.failed({
+      params: {},
+      error,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchPublicGistsAsyncAction.failed.type,
+    payload: {
+      params: {},
+      error,
+    },
+    error: true,
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
 // test('success fetch gists async action', () => {
 //   const store = mockStore({});
 //   // @ts-ignore

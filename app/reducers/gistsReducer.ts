@@ -2,6 +2,7 @@ import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import {
   fetchGistsAsyncAction,
   fetchGistAsyncAction,
+  fetchPublicGistsAsyncAction,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -42,44 +43,53 @@ export const gistsInitialState: GistsState = {
 };
 
 const gistsReducer = reducerWithInitialState(gistsInitialState)
-  .case(fetchGistsAsyncAction.started, state => ({
-    ...state,
-    loading: true,
-    fetched_at: new Date().getTime(),
-  }))
-  .case(fetchGistsAsyncAction.done, (state, { result }) => {
-    const { data } = result;
-    let gists = {};
-    // normalize
-    const timeline = data.map(gist => {
-      const { id } = gist;
-      gists = {
-        ...gists,
-        [id]: gist,
-      };
-      return id;
-    });
-
-    return {
+  .cases(
+    [
+      fetchGistsAsyncAction.started,
+      fetchPublicGistsAsyncAction.started,
+      fetchGistAsyncAction.started,
+    ],
+    state => ({
       ...state,
-      gists,
-      timeline,
+      loading: true,
+    })
+  )
+  .cases(
+    [fetchGistsAsyncAction.done, fetchPublicGistsAsyncAction.done],
+    (state, { result }) => {
+      const { data } = result;
+      let gists = {};
+
+      // normalize
+      const timeline = data.map(gist => {
+        const { id } = gist;
+        gists = {
+          ...gists,
+          [id]: gist,
+        };
+        return id;
+      });
+
+      return {
+        ...state,
+        gists,
+        timeline,
+        loading: false,
+        error: null,
+      };
+    }
+  )
+  .cases(
+    [fetchGistsAsyncAction.failed, fetchPublicGistsAsyncAction.failed],
+    (state, { error }) => ({
+      ...state,
       loading: false,
-      error: null,
-    };
-  })
-  .case(fetchGistsAsyncAction.failed, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error: {
-      code: error.code,
-      message: error.message,
-    },
-  }))
-  .case(fetchGistAsyncAction.started, state => ({
-    ...state,
-    loading: true,
-  }))
+      error: {
+        code: error.code,
+        message: error.message,
+      },
+    })
+  )
   .case(fetchGistAsyncAction.done, (state, { result }) => {
     const { files, forks, history } = result;
     return {

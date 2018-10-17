@@ -1,5 +1,8 @@
 import reducer, { gistsInitialState } from './gistsReducer';
-import { fetchGistsAsyncAction } from '~/actions/gistsAction';
+import {
+  fetchGistsAsyncAction,
+  fetchPublicGistsAsyncAction,
+} from '~/actions/gistsAction';
 
 const gistsResponse = [
   {
@@ -115,6 +118,57 @@ test('failed fetch gists', () => {
       error: null,
     },
     fetchGistsAsyncAction.failed({
+      params: {},
+      error,
+    })
+  );
+  expect(state.loading).toBe(false);
+  expect(state.error).toEqual(error);
+});
+
+test('start fetch  public gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: false,
+    },
+    fetchPublicGistsAsyncAction.started({})
+  );
+  expect(state.loading).toBe(true);
+  expect(state.error).toBeNull();
+});
+
+test('success fetch public gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: true,
+      error,
+    },
+    fetchPublicGistsAsyncAction.done({
+      params: {},
+      result: {
+        data: gistsResponse,
+      },
+    })
+  );
+  const gistId = gistsResponse[0].id;
+  const expected = {
+    [gistId]: gistsResponse[0],
+  };
+  expect(state.loading).toBe(false);
+  expect(state.gists).toEqual(expected);
+  expect(state.error).toBeNull();
+});
+
+test('failed fetch public gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: true,
+      error: null,
+    },
+    fetchPublicGistsAsyncAction.failed({
       params: {},
       error,
     })
