@@ -2,6 +2,7 @@ import reducer, { gistsInitialState } from './gistsReducer';
 import {
   fetchGistsAsyncAction,
   fetchPublicGistsAsyncAction,
+  fetchUserGistsAsyncAction,
 } from '~/actions/gistsAction';
 
 const gistsResponse = [
@@ -63,6 +64,7 @@ const gistsResponse = [
   },
 ];
 
+const userName = 'username';
 const error = {
   code: 400,
   message: 'error!!!',
@@ -170,6 +172,63 @@ test('failed fetch public gists', () => {
     },
     fetchPublicGistsAsyncAction.failed({
       params: {},
+      error,
+    })
+  );
+  expect(state.loading).toBe(false);
+  expect(state.error).toEqual(error);
+});
+
+test('start fetch user gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: false,
+    },
+    fetchUserGistsAsyncAction.started({
+      userName,
+    })
+  );
+  expect(state.loading).toBe(true);
+  expect(state.error).toBeNull();
+});
+
+test('success fetch user gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: true,
+      error,
+    },
+    fetchUserGistsAsyncAction.done({
+      params: {
+        userName,
+      },
+      result: {
+        data: gistsResponse,
+      },
+    })
+  );
+  const gistId = gistsResponse[0].id;
+  const expected = {
+    [gistId]: gistsResponse[0],
+  };
+  expect(state.loading).toBe(false);
+  expect(state.gists).toEqual(expected);
+  expect(state.error).toBeNull();
+});
+
+test('failed fetch user gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: true,
+      error: null,
+    },
+    fetchUserGistsAsyncAction.failed({
+      params: {
+        userName,
+      },
       error,
     })
   );

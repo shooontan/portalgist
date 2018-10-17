@@ -35,6 +35,13 @@ export const fetchPublicGistsAsyncAction = actionCreator.async<
   { code: number; message: string }
 >('FETCH_PUBLIC_GISTS_ASYNC');
 
+// get users gists resource async action
+export const fetchUserGistsAsyncAction = actionCreator.async<
+  { userName: string },
+  { data: GistsGetAllResponse },
+  { code: number; message: string }
+>('FETCH_USER_GISTS_ASYNC');
+
 export const fetchGistsAction = () => async (dispatch: Dispatch) => {
   dispatch(fetchGistsAsyncAction.started({}));
 
@@ -122,6 +129,41 @@ export const fetchPublicGistsAction = () => async (dispatch: Dispatch) => {
     dispatch(
       fetchPublicGistsAsyncAction.failed({
         params: {},
+        error: {
+          code,
+          message,
+        },
+      })
+    );
+  }
+};
+
+export const fetchUserGistsAction = (userName: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(fetchUserGistsAsyncAction.started({ userName }));
+
+  // to-do fetch cache
+
+  try {
+    const { data } = await octokit.gists.getForUser({ username: userName });
+    dispatch(
+      fetchUserGistsAsyncAction.done({
+        params: {
+          userName,
+        },
+        result: {
+          data,
+        },
+      })
+    );
+  } catch (error) {
+    const { code, message } = error;
+    dispatch(
+      fetchUserGistsAsyncAction.failed({
+        params: {
+          userName,
+        },
         error: {
           code,
           message,

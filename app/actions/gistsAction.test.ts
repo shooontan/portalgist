@@ -4,6 +4,7 @@ import { GistsGetAllResponse } from '~/libs/octokit';
 import * as act from './gistsAction';
 
 const gistId = 'abcdefgist';
+const userName = 'username';
 const mockStore = configureStore([thunk]);
 
 test('should create fetchGists.started action', () => {
@@ -182,6 +183,75 @@ test('should create fetchPublicGists.failed action', () => {
     type: act.fetchPublicGistsAsyncAction.failed.type,
     payload: {
       params: {},
+      error,
+    },
+    error: true,
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchUserGists.started action', () => {
+  const store = mockStore({});
+  store.dispatch(act.fetchUserGistsAsyncAction.started({ userName }));
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchUserGistsAsyncAction.started.type,
+    payload: {
+      userName,
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchUserGists.done action', () => {
+  const store = mockStore({});
+  const data = [] as GistsGetAllResponse;
+  store.dispatch(
+    act.fetchUserGistsAsyncAction.done({
+      params: {
+        userName,
+      },
+      result: {
+        data,
+      },
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchUserGistsAsyncAction.done.type,
+    payload: {
+      params: {
+        userName,
+      },
+      result: {
+        data,
+      },
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create fetchUserGists.failed action', () => {
+  const store = mockStore({});
+  const error = {
+    code: 400,
+    message: 'error!!!',
+  };
+  store.dispatch(
+    act.fetchUserGistsAsyncAction.failed({
+      params: {
+        userName,
+      },
+      error,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.fetchUserGistsAsyncAction.failed.type,
+    payload: {
+      params: {
+        userName,
+      },
       error,
     },
     error: true,

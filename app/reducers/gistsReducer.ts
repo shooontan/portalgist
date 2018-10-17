@@ -3,6 +3,7 @@ import {
   fetchGistsAsyncAction,
   fetchGistAsyncAction,
   fetchPublicGistsAsyncAction,
+  fetchUserGistsAsyncAction,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -48,6 +49,7 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
       fetchGistsAsyncAction.started,
       fetchPublicGistsAsyncAction.started,
       fetchGistAsyncAction.started,
+      fetchUserGistsAsyncAction.started,
     ],
     state => ({
       ...state,
@@ -55,7 +57,11 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     })
   )
   .cases(
-    [fetchGistsAsyncAction.done, fetchPublicGistsAsyncAction.done],
+    [
+      fetchGistsAsyncAction.done,
+      fetchPublicGistsAsyncAction.done,
+      fetchUserGistsAsyncAction.done,
+    ],
     (state, { result }) => {
       const { data } = result;
       let gists = {};
@@ -80,7 +86,11 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     }
   )
   .cases(
-    [fetchGistsAsyncAction.failed, fetchPublicGistsAsyncAction.failed],
+    [
+      fetchGistsAsyncAction.failed,
+      fetchPublicGistsAsyncAction.failed,
+      fetchUserGistsAsyncAction.failed,
+    ],
     (state, { error }) => ({
       ...state,
       loading: false,
