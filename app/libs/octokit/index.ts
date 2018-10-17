@@ -1,4 +1,3 @@
-import octokit from './Octokit';
-
-export default octokit;
+export { default } from './Octokit';
+export * from './Octokit';
 export * from './octokit.types';

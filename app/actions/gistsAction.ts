@@ -6,7 +6,6 @@ import octokit, {
   GistGetResponseHistory,
   GistGetResponseForks,
 } from '~/libs/octokit';
-import { RootState } from '~/reducers';
 
 const GIST_PREFIX = '@@GIST';
 const actionCreator = actionCreatorFactory(GIST_PREFIX);
@@ -29,24 +28,8 @@ export const fetchGistAsyncAction = actionCreator.async<
   { code: number; message: string }
 >('FETCH_GIST_ASYNC');
 
-export const fetchGistsAction = () => async (
-  dispatch: Dispatch,
-  getState: () => RootState
-) => {
+export const fetchGistsAction = () => async (dispatch: Dispatch) => {
   dispatch(fetchGistsAsyncAction.started({}));
-
-  const { auth } = getState();
-  const { accessToken } = auth;
-  if (accessToken) {
-    // set access token from redux state
-    octokit.authenticate({
-      type: 'token',
-      token: accessToken,
-    });
-  } else {
-    // reflesh token
-    octokit.authenticate(undefined);
-  }
 
   // to-do fetch cache
 
@@ -75,23 +58,9 @@ export const fetchGistsAction = () => async (
 };
 
 export const fetchGistAction = (gistId: string) => async (
-  dispatch: Dispatch,
-  getState: () => RootState
+  dispatch: Dispatch
 ) => {
   dispatch(fetchGistAsyncAction.started({ gistId }));
-
-  const { auth } = getState();
-  const { accessToken } = auth;
-  if (accessToken) {
-    // set access token from redux state
-    octokit.authenticate({
-      type: 'token',
-      token: accessToken,
-    });
-  } else {
-    // reflesh token
-    octokit.authenticate(undefined);
-  }
 
   // to-do fetch cache
 

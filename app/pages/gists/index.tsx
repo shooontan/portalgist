@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from '~/reducers';
 import Gist from '~/components/molecules/Gist';
-import { fetchGistAction, fetchGistAsyncAction } from '~/actions/gistsAction';
-import octokit, {
+import { fetchGistAction } from '~/actions/gistsAction';
+import {
   GistGetResponseFiles,
   GistGetResponseForks,
   GistGetResponseHistory,
@@ -25,8 +25,8 @@ interface Props {
 class GistPage extends React.PureComponent<Props> {
   static async getInitialProps(Context) {
     const { req, query, store } = Context;
-    const { dispatch } = store;
-    const { id } = query;
+    const { dispatch }: { dispatch: ThunkDispatch<any, any, any> } = store;
+    const { id }: { id: string } = query;
 
     if (req) {
       return {
@@ -35,35 +35,8 @@ class GistPage extends React.PureComponent<Props> {
       };
     }
 
-    try {
-      const { data } = await octokit.gists.get({ gist_id: id });
-      const { files, forks, history } = data;
-      dispatch(
-        fetchGistAsyncAction.done({
-          params: {
-            gistId: id,
-          },
-          result: {
-            files,
-            forks,
-            history,
-          },
-        })
-      );
-    } catch (error) {
-      const { code, message } = error;
-      dispatch(
-        fetchGistAsyncAction.failed({
-          params: {
-            gistId: id,
-          },
-          error: {
-            code,
-            message,
-          },
-        })
-      );
-    }
+    await dispatch(fetchGistAction(id));
+
     return {
       isServer: false,
       query,

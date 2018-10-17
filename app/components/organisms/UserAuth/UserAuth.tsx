@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import firebase from '~/libs/firebase';
+import { authenticate } from '~/libs/octokit';
 import {
   loginUserAsyncAction,
   logoutUserAction,
   setAccessTokenAction,
 } from '~/actions/authAction';
+import { RootState } from '~/reducers';
 
 interface Props {
   dispatch: ThunkDispatch<void, void, AnyAction>;
+  accessToken: string;
 }
 
 class UserAuth extends React.PureComponent<Props> {
@@ -25,8 +28,18 @@ class UserAuth extends React.PureComponent<Props> {
     firebase.auth().onAuthStateChanged(user => {
       // no login user
       if (!user) {
+        // reset octokit authentication
+        authenticate(null);
+        // logout action
         return dispatch(logoutUserAction());
       }
+
+      // set token to octokit client
+      const { accessToken } = this.props;
+      if (accessToken) {
+        authenticate(accessToken);
+      }
+
       // login user
       const { providerData } = user;
       const userData = providerData[0];
@@ -58,6 +71,9 @@ class UserAuth extends React.PureComponent<Props> {
       const accessToken: string = result.credential.accessToken;
       dispatch(setAccessTokenAction({ accessToken }));
 
+      // set token to octokit client
+      authenticate(accessToken);
+
       // login user
       const { providerData } = result.user;
       const userData = providerData[0];
@@ -88,4 +104,6 @@ class UserAuth extends React.PureComponent<Props> {
   }
 }
 
-export default connect()(UserAuth);
+export default connect((state: RootState) => ({
+  accessToken: state.auth.accessToken,
+}))(UserAuth);

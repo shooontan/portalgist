@@ -2,12 +2,11 @@ import * as React from 'react';
 import Link from 'next/link';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
-import octokit from '~/libs/octokit';
 import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import Layout from '~/components/Layout';
-import { fetchGistsAction, fetchGistsAsyncAction } from '~/actions/gistsAction';
+import { fetchGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 
 interface Props {
@@ -20,7 +19,7 @@ interface Props {
 class IndexPage extends React.PureComponent<Props> {
   static async getInitialProps(Context) {
     const { req, store } = Context;
-    const { dispatch } = store;
+    const { dispatch }: { dispatch: ThunkDispatch<any, any, any> } = store;
 
     if (req) {
       return {
@@ -28,28 +27,7 @@ class IndexPage extends React.PureComponent<Props> {
       };
     }
 
-    try {
-      const { data } = await octokit.gists.getAll({});
-      dispatch(
-        fetchGistsAsyncAction.done({
-          params: {},
-          result: {
-            data,
-          },
-        })
-      );
-    } catch (error) {
-      const { code, message } = error;
-      dispatch(
-        fetchGistsAsyncAction.failed({
-          params: {},
-          error: {
-            code,
-            message,
-          },
-        })
-      );
-    }
+    await dispatch(fetchGistsAction());
 
     return {
       isServer: false,

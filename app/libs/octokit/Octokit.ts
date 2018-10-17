@@ -5,3 +5,14 @@ const octokit = new Octokit({
 });
 
 export default octokit;
+
+export const authenticate = (accessToken: string | null) => {
+  if (accessToken) {
+    octokit.authenticate({
+      type: 'token',
+      token: accessToken,
+    });
+  } else {
+    octokit.authenticate(null);
+  }
+};
