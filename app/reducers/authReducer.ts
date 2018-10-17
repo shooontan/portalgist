@@ -9,6 +9,7 @@ export interface AuthState {
   login: boolean;
   loading: boolean;
   userName: string;
+  userId: string;
   photoUrl: string;
   accessToken: string;
   error: {
@@ -21,6 +22,7 @@ export const authInitialState: AuthState = {
   login: false,
   loading: false,
   userName: '',
+  userId: '',
   photoUrl: '',
   accessToken: '',
   error: null,
@@ -29,11 +31,7 @@ export const authInitialState: AuthState = {
 const authReducer = reducerWithInitialState(authInitialState)
   .case(logoutUserAsyncAction.done, state => ({
     ...state,
-    login: false,
-    userName: '',
-    photoUrl: '',
-    accessToken: '',
-    error: null,
+    ...authInitialState,
   }))
   .case(loginUserAsyncAction.started, state => ({
     ...state,
@@ -45,6 +43,7 @@ const authReducer = reducerWithInitialState(authInitialState)
     loading: false,
     login: true,
     userName: result.userName,
+    userId: result.userId,
     photoUrl: result.photoUrl,
     error: null,
   }))

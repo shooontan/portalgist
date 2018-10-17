@@ -84,6 +84,7 @@ test('should create fetchGist.done action', () => {
     files: {},
     forks: [],
     history: [],
+    owner: null,
   };
   const store = mockStore({});
   store.dispatch(

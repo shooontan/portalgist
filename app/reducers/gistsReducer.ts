@@ -10,6 +10,7 @@ import {
   GistGetResponseFiles,
   GistGetResponseForks,
   GistGetResponseHistory,
+  GistGetResponseOwner,
 } from '~/libs/octokit';
 
 export interface GistsState {
@@ -20,6 +21,7 @@ export interface GistsState {
     files: GistGetResponseFiles;
     forks: GistGetResponseForks;
     history: GistGetResponseHistory;
+    owner: GistGetResponseOwner | null;
   };
   timeline: string[];
   loading: boolean;
@@ -36,6 +38,7 @@ export const gistsInitialState: GistsState = {
     files: {},
     forks: [],
     history: [],
+    owner: null,
   },
   timeline: [],
   loading: false,
@@ -101,13 +104,14 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     })
   )
   .case(fetchGistAsyncAction.done, (state, { result }) => {
-    const { files, forks, history } = result;
+    const { files, forks, history, owner } = result;
     return {
       ...state,
       gist: {
         files,
         forks,
         history,
+        owner,
       },
     };
   });

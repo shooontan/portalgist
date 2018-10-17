@@ -5,8 +5,12 @@ import {
   GistsGetResponseFilesHelloWorldRb,
   GistsGetResponseForksItem,
   GistsGetResponseHistoryItem,
+  GistsGetResponseOwner as OriginalGistsGetResponseOwner,
 } from '@octokit/rest';
 import { Overwrite } from 'typelevel-ts';
+
+// owner
+export type GistGetResponseOwner = OriginalGistsGetResponseOwner;
 
 /**
  * [get] /gists

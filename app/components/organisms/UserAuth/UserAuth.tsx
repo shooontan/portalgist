@@ -44,12 +44,14 @@ class UserAuth extends React.PureComponent<Props> {
       const { providerData } = user;
       const userData = providerData[0];
       const userName = userData.displayName;
+      const userId = userData.uid;
       const photoUrl = userData.photoURL;
       return dispatch(
         loginUserAsyncAction.done({
           params: {},
           result: {
             userName,
+            userId,
             photoUrl,
           },
         })
@@ -62,6 +64,7 @@ class UserAuth extends React.PureComponent<Props> {
 
     try {
       const result = await firebase.auth().getRedirectResult();
+
       // no login
       if (!result || !result.credential) {
         return;
@@ -78,11 +81,12 @@ class UserAuth extends React.PureComponent<Props> {
       const { providerData } = result.user;
       const userData = providerData[0];
       const userName = userData.displayName;
+      const userId = userData.uid;
       const photoUrl = result.user.photoURL;
       dispatch(
         loginUserAsyncAction.done({
           params: {},
-          result: { userName, photoUrl },
+          result: { userName, userId, photoUrl },
         })
       );
     } catch (error) {

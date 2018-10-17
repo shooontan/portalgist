@@ -5,6 +5,7 @@ import octokit, {
   GistGetResponseFiles,
   GistGetResponseHistory,
   GistGetResponseForks,
+  GistGetResponseOwner,
 } from '~/libs/octokit';
 
 const GIST_PREFIX = '@@GIST';
@@ -24,6 +25,7 @@ export const fetchGistAsyncAction = actionCreator.async<
     files: GistGetResponseFiles;
     forks: GistGetResponseForks;
     history: GistGetResponseHistory;
+    owner: GistGetResponseOwner;
   },
   { code: number; message: string }
 >('FETCH_GIST_ASYNC');
@@ -80,7 +82,7 @@ export const fetchGistAction = (gistId: string) => async (
 
   try {
     const { data } = await octokit.gists.get({ gist_id: gistId });
-    const { files, forks, history } = data;
+    const { files, forks, history, owner } = data;
     dispatch(
       fetchGistAsyncAction.done({
         params: {
@@ -90,6 +92,7 @@ export const fetchGistAction = (gistId: string) => async (
           files,
           forks,
           history,
+          owner,
         },
       })
     );

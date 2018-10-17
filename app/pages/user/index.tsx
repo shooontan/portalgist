@@ -9,6 +9,7 @@ import {
   GistGetResponseForks,
   GistGetResponseHistory,
 } from '~/libs/octokit';
+import Layout from '~/components/Layout';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -64,7 +65,11 @@ class UserPage extends React.PureComponent<Props> {
       return <GistItem gist={gist} key={gistId} />;
     });
 
-    return <div>{GistItems}</div>;
+    return (
+      <Layout>
+        <div>{GistItems}</div>
+      </Layout>
+    );
   }
 }
 

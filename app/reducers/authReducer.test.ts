@@ -6,6 +6,7 @@ import {
 } from '~/actions/authAction';
 
 const userName = 'testuser';
+const userId = '123456789';
 const photoUrl = 'https://example.com/photo.jpg';
 const accessToken = '123456789';
 const error = {
@@ -59,6 +60,7 @@ test('success login', () => {
       params: {},
       result: {
         userName,
+        userId,
         photoUrl,
       },
     })

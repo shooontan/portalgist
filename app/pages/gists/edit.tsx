@@ -11,23 +11,22 @@ import {
   GistGetResponseOwner,
 } from '~/libs/octokit';
 import Layout from '~/components/Layout';
-import TextLink from '~/components/atoms/TextLink';
 
 interface Props {
   isServer: boolean;
   query: {
     id: string;
   };
-  auth: RootState['auth'];
   files: GistGetResponseFiles;
   forks: GistGetResponseForks;
   history: GistGetResponseHistory;
   owner: GistGetResponseOwner;
+  auth: RootState['auth'];
   error: Error | null;
   dispatch: ThunkDispatch<any, any, any>;
 }
 
-class GistPage extends React.PureComponent<Props> {
+class EditPage extends React.PureComponent<Props> {
   static async getInitialProps(Context) {
     const { req, query, store } = Context;
     const { dispatch }: { dispatch: ThunkDispatch<any, any, any> } = store;
@@ -55,28 +54,6 @@ class GistPage extends React.PureComponent<Props> {
     }
   }
 
-  editLink = () => {
-    const {
-      auth: { login, userId },
-      query: { id },
-      owner,
-    } = this.props;
-
-    if (!login) {
-      return null;
-    }
-    if (!owner || userId !== owner.id.toString()) {
-      return null;
-    }
-
-    const editHref = {
-      pathname: '/gists/edit',
-      query: { id },
-    };
-
-    return <TextLink href={editHref}>Edit</TextLink>;
-  };
-
   render() {
     const { files, error } = this.props;
     if (error || !files) {
@@ -90,8 +67,7 @@ class GistPage extends React.PureComponent<Props> {
 
     return (
       <Layout>
-        {this.editLink()}
-        {Gists}
+        <div>{Gists}</div>
       </Layout>
     );
   }
@@ -103,4 +79,4 @@ export default connect((state: RootState) => ({
   forks: state.gists.gist.forks,
   history: state.gists.gist.history,
   owner: state.gists.gist.owner,
-}))(GistPage);
+}))(EditPage);

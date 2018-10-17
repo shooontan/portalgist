@@ -31,6 +31,7 @@ test('should create login.started action', () => {
 
 test('should create login.done action', () => {
   const userName = 'username';
+  const userId = 'userid';
   const photoUrl = 'https://example.com/photo.jpg';
   const store = mockStore({});
   store.dispatch(
@@ -38,6 +39,7 @@ test('should create login.done action', () => {
       params: {},
       result: {
         userName,
+        userId,
         photoUrl,
       },
     })
@@ -49,6 +51,7 @@ test('should create login.done action', () => {
       params: {},
       result: {
         userName,
+        userId,
         photoUrl,
       },
     },

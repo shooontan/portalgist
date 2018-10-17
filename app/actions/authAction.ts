@@ -23,7 +23,7 @@ export const logoutUserAction = () => async (dispatch: Dispatch) => {
 // login async action
 export const loginUserAsyncAction = actionCreator.async<
   {},
-  { userName: string; photoUrl: string; accessToken?: string },
+  { userName: string; userId: string; photoUrl: string; accessToken?: string },
   { code: number; message: string }
 >('LOGIN_USER_ASYNC');
 
