@@ -6,6 +6,7 @@ import { Persistor } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import createStore from '~/stores/createStore';
 import UserAuth from '~/components/organisms/UserAuth';
+import { authenticate } from '~/libs/octokit';
 
 interface Props {
   store: Store;
@@ -13,6 +14,13 @@ interface Props {
 }
 
 const { store, persistor } = createStore(undefined);
+
+const onBeforeLift = () => {
+  const { auth } = store.getState();
+  if (auth.accessToken) {
+    authenticate(auth.accessToken);
+  }
+};
 
 class AppWithReduxStore extends App<Props> {
   static async getInitialProps(appContext) {
@@ -35,7 +43,7 @@ class AppWithReduxStore extends App<Props> {
     return (
       <Container>
         <Provider store={store}>
-          <PersistGate persistor={persistor}>
+          <PersistGate persistor={persistor} onBeforeLift={onBeforeLift}>
             <>
               <UserAuth />
               <Component {...pageProps} />
