@@ -11,6 +11,7 @@ import {
   GistGetResponseOwner,
 } from '~/libs/octokit';
 import Layout from '~/components/Layout';
+import getQuery from '~/helpers/getQuery';
 
 interface Props {
   isServer: boolean;
@@ -48,9 +49,10 @@ class EditPage extends React.PureComponent<Props> {
   }
 
   componentDidMount() {
-    const { isServer, query, dispatch } = this.props;
-    if (isServer) {
-      dispatch(fetchGistAction(query.id));
+    const { isServer, dispatch } = this.props;
+    const { id } = getQuery();
+    if (isServer && typeof id === 'string') {
+      dispatch(fetchGistAction(id));
     }
   }
 

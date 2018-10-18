@@ -10,6 +10,7 @@ import {
   GistGetResponseHistory,
 } from '~/libs/octokit';
 import Layout from '~/components/Layout';
+import getQuery from '~/helpers/getQuery';
 
 type Dispatch = ThunkDispatch<any, any, any>;
 
@@ -48,13 +49,9 @@ class UserPage extends React.PureComponent<Props> {
   }
 
   componentDidMount() {
-    const {
-      isServer,
-      query: { name },
-      dispatch,
-    } = this.props;
-
-    if (isServer) {
+    const { isServer, dispatch } = this.props;
+    const { name } = getQuery();
+    if (isServer && typeof name === 'string') {
       dispatch(fetchUserGistsAction(name));
     }
   }
