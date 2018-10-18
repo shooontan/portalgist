@@ -15,7 +15,7 @@ const Gist = (props: Props) => {
     <Wrapper>
       <Filename>{filename}</Filename>
       {language && <Language>{language}</Language>}
-      <Content>{content}</Content>
+      <Content value={content} />
     </Wrapper>
   );
 };
