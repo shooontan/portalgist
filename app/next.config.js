@@ -1,5 +1,6 @@
 const withTypescript = require('@zeit/next-typescript');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = withTypescript(
   withBundleAnalyzer({
@@ -36,8 +37,31 @@ module.exports = withTypescript(
             chunks: 'all',
             test: /\/node_modules\/@firebase/,
           },
+          'monaco-editor': {
+            name: 'monaco-editor',
+            chunks: 'all',
+            test: /\/node_modules\/monaco-editor/,
+          },
         };
       }
+
+      config.module.rules.push({
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      });
+
+      config.plugins.push(
+        new MonacoWebpackPlugin({
+          output: 'static', // next.js static dir for monaco-editor
+          languages: ['javascript', 'typescript'],
+        })
+      );
+
+      config.output = {
+        ...config.output,
+        publicPath: '/_next', // next.js base url for monaco-editor
+      };
+
       return config;
     },
   })
