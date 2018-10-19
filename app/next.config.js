@@ -24,5 +24,21 @@ module.exports = withTypescript(
         reportFilename: '../analyze/client.html',
       },
     },
+    webpack(config) {
+      if (
+        config.optimization.splitChunks &&
+        config.optimization.splitChunks.cacheGroups
+      ) {
+        config.optimization.splitChunks.cacheGroups = {
+          ...config.optimization.splitChunks.cacheGroups,
+          firebase: {
+            name: 'firebase',
+            chunks: 'all',
+            test: /\/node_modules\/@firebase/,
+          },
+        };
+      }
+      return config;
+    },
   })
 );
