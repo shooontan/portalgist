@@ -23,6 +23,7 @@ export default class MyDocument extends Document<Props> {
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+          {/* <script src="https://cdn.polyfill.io/v2/polyfill.min.js" /> */}
           {this.props.styleTags}
         </Head>
         <body>

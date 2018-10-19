@@ -1,3 +1,4 @@
+const path = require('path');
 const withTypescript = require('@zeit/next-typescript');
 
 module.exports = withTypescript({
@@ -9,5 +10,15 @@ module.exports = withTypescript({
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
     FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
     FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  },
+  webpack(config, options) {
+    config.module.rules.push({
+      test: /\.js$/,
+      include: [path.resolve(__dirname, 'node_modules', '@octokit')],
+      use: [
+        options.defaultLoaders.babel,
+      ],
+    });
+    return config;
   },
 });
