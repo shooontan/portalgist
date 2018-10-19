@@ -13,3 +13,6 @@ coverage
 
 # env
 .env
+
+# analyze
+analyze
