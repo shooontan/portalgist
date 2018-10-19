@@ -4,6 +4,7 @@ import {
   fetchGistAsyncAction,
   fetchPublicGistsAsyncAction,
   fetchUserGistsAsyncAction,
+  editGistContent,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -113,6 +114,28 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
         history,
         owner,
       },
+    };
+  })
+  .case(editGistContent, (state, { fileId, fileName, content }) => {
+    const editFile = {
+      ...state.gist.files[fileId],
+      filename: fileName,
+      content,
+    };
+
+    const editFiles = {
+      ...state.gist.files,
+      [fileId]: editFile,
+    };
+
+    const gist = {
+      ...state.gist,
+      files: editFiles,
+    };
+
+    return {
+      ...state,
+      gist,
     };
   });
 

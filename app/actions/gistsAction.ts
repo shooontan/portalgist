@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import Router from 'next/router';
 import actionCreatorFactory from 'typescript-fsa';
 import octokit, {
   GistsGetAllResponse,
@@ -6,6 +7,7 @@ import octokit, {
   GistGetResponseHistory,
   GistGetResponseForks,
   GistGetResponseOwner,
+  GistPatchEditResponse,
 } from '~/libs/octokit';
 
 const GIST_PREFIX = '@@GIST';
@@ -43,6 +45,29 @@ export const fetchUserGistsAsyncAction = actionCreator.async<
   { data: GistsGetAllResponse },
   { code: number; message: string }
 >('FETCH_USER_GISTS_ASYNC');
+
+// edit gist content
+export const editGistContent = actionCreator<{
+  fileId: string;
+  fileName: string;
+  content: string;
+}>('EDIT_GIST_CONTENT');
+
+// patch edit gist
+export const patchEditGistAsyncAction = actionCreator.async<
+  {
+    gistId: string;
+    description?: string;
+    files?: {
+      [key: string]: {
+        content: string;
+        fileName: string;
+      };
+    };
+  },
+  { data: GistPatchEditResponse },
+  { code: number; message: string }
+>('PATCH_EDIT_GIST_ASYNC');
 
 export const fetchGistsAction = () => async (dispatch: Dispatch) => {
   dispatch(fetchGistsAsyncAction.started({}));
@@ -166,6 +191,60 @@ export const fetchUserGistsAction = (userName: string) => async (
       fetchUserGistsAsyncAction.failed({
         params: {
           userName,
+        },
+        error: {
+          code,
+          message,
+        },
+      })
+    );
+  }
+};
+
+export const patchEditGistAction = ({
+  gistId,
+  description,
+  files,
+}: {
+  gistId: string;
+  description?: string;
+  files?: {
+    [key: string]: {
+      content: string;
+      fileName: string;
+    };
+  };
+}) => async (dispatch: Dispatch) => {
+  dispatch(
+    patchEditGistAsyncAction.started({
+      gistId,
+      description,
+      files,
+    })
+  );
+
+  // to-do fetch cache
+
+  try {
+    await octokit.gists.edit({
+      gist_id: gistId,
+      description,
+      files,
+    });
+
+    // redirect
+    Router.push({
+      pathname: '/gists',
+      query: { id: gistId },
+    });
+  } catch (error) {
+    const { code, message } = error;
+    dispatch(
+      patchEditGistAsyncAction.failed({
+        params: {
+          gistId,
+          description,
+          files,
         },
         error: {
           code,

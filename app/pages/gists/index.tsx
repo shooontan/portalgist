@@ -60,9 +60,9 @@ class GistPage extends React.PureComponent<Props> {
   editLink = () => {
     const {
       auth: { login, userId },
-      query: { id },
       owner,
     } = this.props;
+    const { id } = getQuery();
 
     if (!login) {
       return null;

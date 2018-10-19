@@ -2,8 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from '~/reducers';
-import Gist from '~/components/molecules/Gist';
-import { fetchGistAction } from '~/actions/gistsAction';
+import {
+  fetchGistAction,
+  editGistContent,
+  patchEditGistAction,
+} from '~/actions/gistsAction';
 import {
   GistGetResponseFiles,
   GistGetResponseForks,
@@ -12,6 +15,7 @@ import {
 } from '~/libs/octokit';
 import Layout from '~/components/Layout';
 import getQuery from '~/helpers/getQuery';
+import GistEditor from '~/components/molecules/GistEditor';
 
 interface Props {
   isServer: boolean;
@@ -56,6 +60,38 @@ class EditPage extends React.PureComponent<Props> {
     }
   }
 
+  handleChenge = (fileId: string, fileName: string, content: string) => {
+    const { dispatch } = this.props;
+    dispatch(
+      editGistContent({
+        fileId,
+        fileName,
+        content,
+      })
+    );
+  };
+
+  onClick = () => {
+    const { files, query, dispatch } = this.props;
+    const { id } = query;
+    const newFiles = {};
+
+    Object.keys(files).forEach(fileId => {
+      const item = files[fileId];
+      newFiles[fileId] = {
+        content: item.content,
+        filename: item.filename,
+      };
+    });
+
+    dispatch(
+      patchEditGistAction({
+        gistId: id,
+        files: newFiles,
+      })
+    );
+  };
+
   render() {
     const { files, error } = this.props;
     if (error || !files) {
@@ -64,12 +100,20 @@ class EditPage extends React.PureComponent<Props> {
 
     const Gists = Object.keys(files).map(fileName => {
       const file = files[fileName];
-      return <Gist file={file} key={fileName} />;
+      return (
+        <GistEditor
+          fileId={fileName}
+          file={file}
+          key={fileName}
+          onChange={this.handleChenge}
+        />
+      );
     });
 
     return (
       <Layout>
         <div>{Gists}</div>
+        <button onClick={this.onClick}>update</button>
       </Layout>
     );
   }
