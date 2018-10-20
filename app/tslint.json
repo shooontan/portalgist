@@ -11,6 +11,7 @@
       ["~", "react-testing-library", "redux-mock-store"]
     ],
     "no-submodule-imports": false,
+    "no-unused-expression": [true, "allow-tagged-template"],
     "object-literal-sort-keys": false,
     "ordered-imports": false
   }
