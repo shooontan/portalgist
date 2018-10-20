@@ -15,7 +15,7 @@ import {
 } from '~/libs/octokit';
 import Layout from '~/components/Layout';
 import getQuery from '~/helpers/getQuery';
-import GistEditor from '~/components/molecules/GistEditor';
+import GistEditor from '~/components/organisms/GistEditor';
 
 interface Props {
   isServer: boolean;
