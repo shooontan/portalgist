@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
-import Layout from '~/components/Layout';
+import TemplateBase from '~/components/templates/TemplateBase';
 import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 
@@ -57,19 +57,24 @@ class IndexPage extends React.PureComponent<Props> {
   };
 
   render() {
-    const GistItems = this.props.gists.timeline.map(gistId => {
-      const gist = this.props.gists.gists[gistId];
-      return <GistItem gist={gist} key={gistId} />;
-    });
-
-    return (
-      <Layout>
+    const header = (
+      <>
         <h1>Hello {this.props.auth.userName} 👋</h1>
         <p>
           <Link href="/about">
             <a>About</a>
           </Link>
         </p>
+      </>
+    );
+
+    const GistItems = this.props.gists.timeline.map(gistId => {
+      const gist = this.props.gists.gists[gistId];
+      return <GistItem gist={gist} key={gistId} />;
+    });
+
+    const main = (
+      <>
         {!this.props.auth.login && (
           <button onClick={this.handleLogin}>login</button>
         )}
@@ -78,8 +83,10 @@ class IndexPage extends React.PureComponent<Props> {
         )}
         <button onClick={this.fetch}>fetch</button>
         {GistItems}
-      </Layout>
+      </>
     );
+
+    return <TemplateBase header={header} main={main} />;
   }
 }
 

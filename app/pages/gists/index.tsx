@@ -10,7 +10,7 @@ import {
   GistGetResponseHistory,
   GistGetResponseOwner,
 } from '~/libs/octokit';
-import Layout from '~/components/Layout';
+import TemplateBase from '~/components/templates/TemplateBase';
 import TextLink from '~/components/atoms/TextLink';
 import getQuery from '~/helpers/getQuery';
 
@@ -90,12 +90,14 @@ class GistPage extends React.PureComponent<Props> {
       return <Gist file={file} key={fileName} />;
     });
 
-    return (
-      <Layout>
+    const main = (
+      <div>
         {this.editLink()}
         {Gists}
-      </Layout>
+      </div>
     );
+
+    return <TemplateBase main={main} />;
   }
 }
 

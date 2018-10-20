@@ -13,7 +13,7 @@ import {
   GistGetResponseHistory,
   GistGetResponseOwner,
 } from '~/libs/octokit';
-import Layout from '~/components/Layout';
+import TemplateBase from '~/components/templates/TemplateBase';
 import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
 
@@ -110,12 +110,14 @@ class EditPage extends React.PureComponent<Props> {
       );
     });
 
-    return (
-      <Layout>
-        <div>{Gists}</div>
+    const main = (
+      <div>
+        {Gists}
         <button onClick={this.onClick}>update</button>
-      </Layout>
+      </div>
     );
+
+    return <TemplateBase main={main} />;
   }
 }
 
