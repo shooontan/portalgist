@@ -12,8 +12,9 @@ import {
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
-import PageMain from '~/components/organisms/PageMain';
+import PageMainGist from '~/components/organisms/PageMainGist';
 import TextLink from '~/components/atoms/TextLink';
+import { Headline2 } from '~/components/atoms/Headline';
 import getQuery from '~/helpers/getQuery';
 
 interface Props {
@@ -110,10 +111,10 @@ class GistPage extends React.PureComponent<Props> {
     });
 
     return (
-      <PageMain>
+      <PageMainGist>
         {this.editLink()}
         {Gists}
-      </PageMain>
+      </PageMainGist>
     );
   };
 

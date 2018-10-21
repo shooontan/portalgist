@@ -134,7 +134,7 @@ class EditPage extends React.PureComponent<Props> {
     });
 
     return (
-      <PageMain maxWidth={1200}>
+      <PageMain title="Edit" maxWidth={1200}>
         {Gists}
         <button onClick={this.onClick}>update</button>
       </PageMain>

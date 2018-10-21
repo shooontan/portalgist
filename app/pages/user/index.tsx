@@ -106,11 +106,22 @@ class UserPage extends React.PureComponent<Props> {
   };
 
   getMain = () => {
+    const { gists } = this.props;
+    const { timeline } = gists;
+    const firstGistId = timeline[0];
+    if (!firstGistId) {
+      return null;
+    }
+    const gist = gists.gists[firstGistId];
+    const {
+      owner: { login },
+    } = gist;
+
     const GistItems = this.props.gists.timeline.map(gistId => {
-      const gist = this.props.gists.gists[gistId];
-      return <GistItem gist={gist} key={gistId} />;
+      const gistItem = this.props.gists.gists[gistId];
+      return <GistItem gist={gistItem} key={gistId} />;
     });
-    return <PageMain>{GistItems}</PageMain>;
+    return <PageMain title={login}>{GistItems}</PageMain>;
   };
 
   render() {

@@ -53,7 +53,7 @@ class IndexPage extends React.PureComponent<Props> {
       return <GistItem gist={gist} key={gistId} />;
     });
 
-    return <PageMain>{GistItems}</PageMain>;
+    return <PageMain title="All Gists">{GistItems}</PageMain>;
   };
 
   render() {

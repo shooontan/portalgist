@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { GistGetResponseFilesFile } from '~/libs/octokit';
 import Content from '~/components/atoms/Content';
+import { Headline3 } from '~/components/atoms/Headline';
 
 interface Props {
   file: GistGetResponseFilesFile;
@@ -13,7 +14,7 @@ const Gist = (props: Props) => {
   } = props;
   return (
     <Wrapper>
-      <Filename>{filename}</Filename>
+      <Headline>{filename}</Headline>
       {language && <Language>{language}</Language>}
       <Content value={content} />
     </Wrapper>
@@ -22,16 +23,15 @@ const Gist = (props: Props) => {
 
 export default Gist;
 
-const Wrapper = styled.div`
-  padding: 0.5em;
-`;
-
-const Filename = styled.p`
-  margin: 0;
-  padding: 0;
-`;
+const Wrapper = styled.div``;
 
 const Language = styled.p`
+  margin: 0;
+  padding: 0 0 6px 1em;
   color: #666;
   font-size: 12px;
+`;
+
+const Headline = styled(Headline3)`
+  margin: 1em 24px;
 `;

@@ -26,9 +26,14 @@ const Content = (props: Props) => {
 export default Content;
 
 const Wrapper = styled.div`
-  padding: 10px;
-  border: 1px solid #aaa;
-  border-radius: 3px;
+  margin-bottom: 2em;
+  padding: 10px 0 10px 6px;
+  background: #13262d;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  color: #eee;
+  font-size: 15px;
+  line-height: 1.3;
   overflow-x: auto;
 `;
 
