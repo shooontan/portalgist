@@ -14,6 +14,7 @@ import {
   GistGetResponseOwner,
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
+import PageHeader from '~/components/organisms/PageHeader';
 import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
 
@@ -92,6 +93,31 @@ class EditPage extends React.PureComponent<Props> {
     );
   };
 
+  getHeader = () => {
+    const { owner } = this.props;
+    const { id } = getQuery();
+
+    if (!owner || !owner.login) {
+      return null;
+    }
+
+    const breadcrumb = [
+      {
+        item: owner.login,
+        href: `/user?name=${owner.login}`,
+      },
+      {
+        item: 'gist',
+        href: `/gists?id=${id}`,
+      },
+      {
+        item: 'edit',
+        href: `/gists/edit?id=${id}`,
+      },
+    ];
+    return <PageHeader breadcrumb={breadcrumb} />;
+  };
+
   render() {
     const { files, error } = this.props;
     if (error || !files) {
@@ -117,7 +143,7 @@ class EditPage extends React.PureComponent<Props> {
       </div>
     );
 
-    return <TemplateBase main={main} />;
+    return <TemplateBase header={this.getHeader()} main={main} />;
   }
 }
 

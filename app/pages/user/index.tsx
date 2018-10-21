@@ -10,6 +10,7 @@ import {
   GistGetResponseHistory,
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
+import PageHeader from '~/components/organisms/PageHeader';
 import getQuery from '~/helpers/getQuery';
 
 type Dispatch = ThunkDispatch<any, any, any>;
@@ -78,6 +79,31 @@ class UserPage extends React.PureComponent<Props> {
     }
   }
 
+  getHeader = () => {
+    const { gists } = this.props;
+    const { timeline } = gists;
+
+    // no gist data
+    const firstGistId = timeline[0];
+    if (!firstGistId) {
+      return null;
+    }
+
+    const gist = gists.gists[firstGistId];
+    const {
+      owner: { login },
+    } = gist;
+
+    const breadcrumb = [
+      {
+        item: login,
+        href: `/user?name=${login}`,
+      },
+    ];
+
+    return <PageHeader breadcrumb={breadcrumb} />;
+  };
+
   render() {
     const GistItems = this.props.gists.timeline.map(gistId => {
       const gist = this.props.gists.gists[gistId];
@@ -86,7 +112,7 @@ class UserPage extends React.PureComponent<Props> {
 
     const main = <div>{GistItems}</div>;
 
-    return <TemplateBase main={main} />;
+    return <TemplateBase header={this.getHeader()} main={main} />;
   }
 }
 

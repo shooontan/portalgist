@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Link from 'next/link';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import TemplateBase from '~/components/templates/TemplateBase';
+import PageHeader from '~/components/organisms/PageHeader';
 import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 
@@ -56,18 +56,12 @@ class IndexPage extends React.PureComponent<Props> {
     dispatch(fetchPublicGistsAction());
   };
 
-  render() {
-    const header = (
-      <>
-        <h1>Hello {this.props.auth.userName} 👋</h1>
-        <p>
-          <Link href="/about">
-            <a>About</a>
-          </Link>
-        </p>
-      </>
-    );
+  getHeader = () => {
+    const breadcrumb = [];
+    return <PageHeader breadcrumb={breadcrumb} />;
+  };
 
+  render() {
     const GistItems = this.props.gists.timeline.map(gistId => {
       const gist = this.props.gists.gists[gistId];
       return <GistItem gist={gist} key={gistId} />;
@@ -86,7 +80,7 @@ class IndexPage extends React.PureComponent<Props> {
       </>
     );
 
-    return <TemplateBase header={header} main={main} />;
+    return <TemplateBase header={this.getHeader()} main={main} />;
   }
 }
 
