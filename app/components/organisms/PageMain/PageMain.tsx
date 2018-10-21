@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 `;
 
 const Headline = styled(Headline2)`
-  margin: 1em 24px 0;
+  margin: 18px 24px 0;
   padding: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
 `;

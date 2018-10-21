@@ -4,6 +4,7 @@ import { Headline2 } from '~/components/atoms/Headline';
 
 interface Props {
   maxWidth: number;
+  editLink: JSX.Element;
 }
 
 export default class PageMainGist extends React.PureComponent<Props> {
@@ -15,7 +16,10 @@ export default class PageMainGist extends React.PureComponent<Props> {
     const { children } = this.props;
     return (
       <Wrapper data-maxwidth={this.props.maxWidth}>
-        <Headline>Gist</Headline>
+        <Header>
+          <Headline>Gist</Headline>
+          {this.props.editLink}
+        </Header>
         {children}
       </Wrapper>
     );
@@ -32,7 +36,16 @@ const Wrapper = styled.div`
 `;
 
 const Headline = styled(Headline2)`
-  margin: 1em 24px;
+  display: flex;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  margin: 18px 24px 0 24px;
   padding: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
 `;

@@ -13,8 +13,7 @@ import {
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMainGist from '~/components/organisms/PageMainGist';
-import TextLink from '~/components/atoms/TextLink';
-import { Headline2 } from '~/components/atoms/Headline';
+import ButtonLink from '~/components/atoms/ButtonLink';
 import getQuery from '~/helpers/getQuery';
 
 interface Props {
@@ -79,7 +78,7 @@ class GistPage extends React.PureComponent<Props> {
       query: { id },
     };
 
-    return <TextLink href={editHref}>Edit</TextLink>;
+    return <ButtonLink href={editHref}>Edit</ButtonLink>;
   };
 
   getHeader = () => {
@@ -110,12 +109,7 @@ class GistPage extends React.PureComponent<Props> {
       return <Gist file={file} key={fileName} />;
     });
 
-    return (
-      <PageMainGist>
-        {this.editLink()}
-        {Gists}
-      </PageMainGist>
-    );
+    return <PageMainGist editLink={this.editLink()}>{Gists}</PageMainGist>;
   };
 
   render() {
