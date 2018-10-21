@@ -80,7 +80,7 @@ class UserPage extends React.PureComponent<Props> {
   }
 
   getHeader = () => {
-    const { gists } = this.props;
+    const { auth, gists } = this.props;
     const { timeline } = gists;
 
     // no gist data
@@ -101,7 +101,7 @@ class UserPage extends React.PureComponent<Props> {
       },
     ];
 
-    return <PageHeader breadcrumb={breadcrumb} />;
+    return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
   render() {

@@ -94,7 +94,7 @@ class EditPage extends React.PureComponent<Props> {
   };
 
   getHeader = () => {
-    const { owner } = this.props;
+    const { auth, owner } = this.props;
     const { id } = getQuery();
 
     if (!owner || !owner.login) {
@@ -115,7 +115,7 @@ class EditPage extends React.PureComponent<Props> {
         href: `/gists/edit?id=${id}`,
       },
     ];
-    return <PageHeader breadcrumb={breadcrumb} />;
+    return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
   render() {

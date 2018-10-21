@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
-import { loginUserAction, logoutUserAction } from '~/actions/authAction';
 import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import TemplateBase from '~/components/templates/TemplateBase';
@@ -41,24 +40,10 @@ class IndexPage extends React.PureComponent<Props> {
     }
   }
 
-  handleLogin = () => {
-    const { dispatch } = this.props;
-    dispatch(loginUserAction());
-  };
-
-  handleLogout = () => {
-    const { dispatch } = this.props;
-    dispatch(logoutUserAction());
-  };
-
-  fetch = () => {
-    const { dispatch } = this.props;
-    dispatch(fetchPublicGistsAction());
-  };
-
   getHeader = () => {
+    const { auth } = this.props;
     const breadcrumb = [];
-    return <PageHeader breadcrumb={breadcrumb} />;
+    return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
   render() {
@@ -67,18 +52,7 @@ class IndexPage extends React.PureComponent<Props> {
       return <GistItem gist={gist} key={gistId} />;
     });
 
-    const main = (
-      <>
-        {!this.props.auth.login && (
-          <button onClick={this.handleLogin}>login</button>
-        )}
-        {this.props.auth.login && (
-          <button onClick={this.handleLogout}>logout</button>
-        )}
-        <button onClick={this.fetch}>fetch</button>
-        {GistItems}
-      </>
-    );
+    const main = <>{GistItems}</>;
 
     return <TemplateBase header={this.getHeader()} main={main} />;
   }

@@ -4,6 +4,10 @@ import styledNormalize from 'styled-normalize';
 
 injectGlobal`
   ${styledNormalize}
+
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 interface Props {
