@@ -15,6 +15,7 @@ import {
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
+import PageMain from '~/components/organisms/PageMain';
 import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
 
@@ -118,12 +119,8 @@ class EditPage extends React.PureComponent<Props> {
     return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
-  render() {
-    const { files, error } = this.props;
-    if (error || !files) {
-      return <div>no gists data</div>;
-    }
-
+  getMain = () => {
+    const { files } = this.props;
     const Gists = Object.keys(files).map(fileName => {
       const file = files[fileName];
       return (
@@ -136,14 +133,21 @@ class EditPage extends React.PureComponent<Props> {
       );
     });
 
-    const main = (
-      <div>
+    return (
+      <PageMain maxWidth={1200}>
         {Gists}
         <button onClick={this.onClick}>update</button>
-      </div>
+      </PageMain>
     );
+  };
 
-    return <TemplateBase header={this.getHeader()} main={main} />;
+  render() {
+    const { files, error } = this.props;
+    if (error || !files) {
+      return <div>no gists data</div>;
+    }
+
+    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
   }
 }
 

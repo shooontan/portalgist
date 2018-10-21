@@ -11,6 +11,7 @@ import {
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
+import PageMain from '~/components/organisms/PageMain';
 import getQuery from '~/helpers/getQuery';
 
 type Dispatch = ThunkDispatch<any, any, any>;
@@ -104,15 +105,16 @@ class UserPage extends React.PureComponent<Props> {
     return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
-  render() {
+  getMain = () => {
     const GistItems = this.props.gists.timeline.map(gistId => {
       const gist = this.props.gists.gists[gistId];
       return <GistItem gist={gist} key={gistId} />;
     });
+    return <PageMain>{GistItems}</PageMain>;
+  };
 
-    const main = <div>{GistItems}</div>;
-
-    return <TemplateBase header={this.getHeader()} main={main} />;
+  render() {
+    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
   }
 }
 

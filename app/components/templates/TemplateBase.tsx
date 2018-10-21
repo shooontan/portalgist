@@ -8,6 +8,18 @@ injectGlobal`
   * {
     box-sizing: border-box;
   }
+
+  html {
+    background: #eee;
+  }
+
+  body {
+    overflow-y: scroll;
+  }
+
+  a {
+    color: #089e92;
+  }
 `;
 
 interface Props {

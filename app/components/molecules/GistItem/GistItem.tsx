@@ -70,11 +70,18 @@ const GistItem = (props: Props) => {
 export default pure(GistItem);
 
 const Wrapper = styled.article`
-  margin: 0 0 0.5em;
-  padding: 0.8em;
+  padding: 1.6em;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  &:first-of-type {
+    padding-top: 1.8em;
+  }
+
+  &:last-of-type {
+    border: none;
+  }
 `;
 
 const StyledIcon = styled(Icon)`
@@ -89,6 +96,7 @@ const StyledDateTime = styled(DateTime)`
 const GistUserLinkWrapper = styled.p`
   margin: 0;
   line-height: 24px;
+  font-weight: bold;
   word-break: break-all;
 `;
 
@@ -116,4 +124,5 @@ const DetailText = styled.span`
 
 const Slash = styled.span`
   margin: 0 6px;
+  font-weight: normal;
 `;

@@ -1,4 +1,3 @@
-import { format } from 'url';
 import * as React from 'react';
 import Link, { LinkProps } from 'next/link';
 import pure from 'recompose/pure';
@@ -15,8 +14,8 @@ type Props = Overwrite<
 const TextLink = (props: Props) => {
   const { children, href, ...rest } = props;
   return (
-    <Link href={href} {...rest}>
-      <Anker href={format(href)}>{children}</Anker>
+    <Link href={href} passHref {...rest}>
+      <Anker>{children}</Anker>
     </Link>
   );
 };

@@ -5,6 +5,7 @@ import { AuthState } from '~/reducers/authReducer';
 import { GistsState } from '~/reducers/gistsReducer';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
+import PageMain from '~/components/organisms/PageMain';
 import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 
@@ -46,15 +47,17 @@ class IndexPage extends React.PureComponent<Props> {
     return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
-  render() {
+  getMain = () => {
     const GistItems = this.props.gists.timeline.map(gistId => {
       const gist = this.props.gists.gists[gistId];
       return <GistItem gist={gist} key={gistId} />;
     });
 
-    const main = <>{GistItems}</>;
+    return <PageMain>{GistItems}</PageMain>;
+  };
 
-    return <TemplateBase header={this.getHeader()} main={main} />;
+  render() {
+    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
   }
 }
 

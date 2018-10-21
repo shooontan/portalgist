@@ -12,6 +12,7 @@ import {
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
+import PageMain from '~/components/organisms/PageMain';
 import TextLink from '~/components/atoms/TextLink';
 import getQuery from '~/helpers/getQuery';
 
@@ -101,25 +102,32 @@ class GistPage extends React.PureComponent<Props> {
     return <PageHeader breadcrumb={breadcrumb} auth={auth} />;
   };
 
-  render() {
-    const { files, error } = this.props;
-    if (error || !files) {
-      return <div>no gists data</div>;
-    }
-
+  getMain = () => {
+    const { files } = this.props;
     const Gists = Object.keys(files).map(fileName => {
       const file = files[fileName];
       return <Gist file={file} key={fileName} />;
     });
 
-    const main = (
-      <div>
+    return (
+      <PageMain>
         {this.editLink()}
         {Gists}
-      </div>
+      </PageMain>
     );
+  };
 
-    return <TemplateBase header={this.getHeader()} main={main} />;
+  render() {
+    const { files, error } = this.props;
+    if (error || !files) {
+      return (
+        <div>
+          <p>no gists data</p>
+        </div>
+      );
+    }
+
+    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
   }
 }
 
