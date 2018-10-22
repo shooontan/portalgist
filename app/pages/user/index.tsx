@@ -12,6 +12,7 @@ import {
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
+import GistItemLoading from '~/components/molecules/GistItemLoading';
 import getQuery from '~/helpers/getQuery';
 
 type Dispatch = ThunkDispatch<any, any, any>;
@@ -107,7 +108,7 @@ class UserPage extends React.PureComponent<Props> {
 
   getMain = () => {
     const { gists } = this.props;
-    const { timeline } = gists;
+    const { timeline, loading } = gists;
     const firstGistId = timeline[0];
     if (!firstGistId) {
       return null;
@@ -117,10 +118,27 @@ class UserPage extends React.PureComponent<Props> {
       owner: { login },
     } = gist;
 
-    const GistItems = this.props.gists.timeline.map(gistId => {
-      const gistItem = this.props.gists.gists[gistId];
-      return <GistItem gist={gistItem} key={gistId} />;
-    });
+    let GistItems = null;
+
+    if (loading) {
+      GistItems = (
+        <>
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+        </>
+      );
+    } else {
+      GistItems = this.props.gists.timeline.map(gistId => {
+        const gistItem = this.props.gists.gists[gistId];
+        return <GistItem gist={gistItem} key={gistId} />;
+      });
+    }
+
     return <PageMain title={login}>{GistItems}</PageMain>;
   };
 

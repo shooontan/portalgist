@@ -8,6 +8,7 @@ import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
 import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
+import GistItemLoading from '~/components/molecules/GistItemLoading';
 
 interface Props {
   dispatch: ThunkDispatch<any, any, any>;
@@ -48,10 +49,30 @@ class IndexPage extends React.PureComponent<Props> {
   };
 
   getMain = () => {
-    const GistItems = this.props.gists.timeline.map(gistId => {
-      const gist = this.props.gists.gists[gistId];
-      return <GistItem gist={gist} key={gistId} />;
-    });
+    const {
+      gists: { loading },
+    } = this.props;
+
+    let GistItems = null;
+
+    if (loading) {
+      GistItems = (
+        <>
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+          <GistItemLoading />
+        </>
+      );
+    } else {
+      GistItems = this.props.gists.timeline.map(gistId => {
+        const gist = this.props.gists.gists[gistId];
+        return <GistItem gist={gist} key={gistId} />;
+      });
+    }
 
     return <PageMain title="All Gists">{GistItems}</PageMain>;
   };

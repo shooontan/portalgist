@@ -69,7 +69,7 @@ const GistItem = (props: Props) => {
 
 export default pure(GistItem);
 
-const Wrapper = styled.article`
+export const Wrapper = styled.article`
   padding: 1.6em;
   display: flex;
   flex-direction: column;
