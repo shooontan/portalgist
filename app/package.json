@@ -1,7 +1,7 @@
 {
-  "name": "gist-client",
-  "version": "0.0.1",
-  "description": "web app for gist",
+  "name": "portalgist",
+  "version": "0.0.2",
+  "description": "web client for gist",
   "main": "index.js",
   "scripts": {
     "dev": "next",
