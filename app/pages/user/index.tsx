@@ -88,7 +88,17 @@ class UserPage extends React.PureComponent<Props> {
     // no gist data
     const firstGistId = timeline[0];
     if (!firstGistId) {
-      return null;
+      return (
+        <PageHeader
+          breadcrumb={[
+            {
+              item: '',
+              href: `/user`,
+            },
+          ]}
+          auth={auth}
+        />
+      );
     }
 
     const gist = gists.gists[firstGistId];
@@ -111,7 +121,7 @@ class UserPage extends React.PureComponent<Props> {
     const { timeline, loading } = gists;
     const firstGistId = timeline[0];
     if (!firstGistId) {
-      return null;
+      return <PageMain title="" />;
     }
     const gist = gists.gists[firstGistId];
     const {
