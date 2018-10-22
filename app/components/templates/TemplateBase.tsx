@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { injectGlobal } from 'styled-components';
 import styledNormalize from 'styled-normalize';
+import Alert from '~/components/organisms/Alert';
 
 injectGlobal`
   ${styledNormalize}
@@ -34,6 +35,7 @@ export default class TemplateBase extends React.PureComponent<Props> {
     return (
       <Layout>
         {header}
+        <Alert />
         {main}
         {footer}
       </Layout>

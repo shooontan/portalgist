@@ -6,6 +6,7 @@ import {
   fetchUserGistsAsyncAction,
   editGistContent,
   editGistDescription,
+  patchEditGistAsyncAction,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -57,10 +58,12 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
       fetchPublicGistsAsyncAction.started,
       fetchGistAsyncAction.started,
       fetchUserGistsAsyncAction.started,
+      patchEditGistAsyncAction.started,
     ],
     state => ({
       ...state,
       loading: true,
+      error: null,
     })
   )
   .cases(
@@ -97,6 +100,7 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
       fetchGistsAsyncAction.failed,
       fetchPublicGistsAsyncAction.failed,
       fetchUserGistsAsyncAction.failed,
+      patchEditGistAsyncAction.failed,
     ],
     (state, { error }) => ({
       ...state,

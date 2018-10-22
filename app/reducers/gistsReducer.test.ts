@@ -3,6 +3,7 @@ import {
   fetchGistsAsyncAction,
   fetchPublicGistsAsyncAction,
   fetchUserGistsAsyncAction,
+  patchEditGistAsyncAction,
 } from '~/actions/gistsAction';
 
 const gistsResponse = [
@@ -64,6 +65,7 @@ const gistsResponse = [
   },
 ];
 
+const gistId = 'dc9db743055754d0e9076826d79d4f8f';
 const userName = 'username';
 const error = {
   code: 400,
@@ -82,6 +84,7 @@ test('start fetch gists', () => {
     {
       ...gistsInitialState,
       loading: false,
+      error,
     },
     fetchGistsAsyncAction.started({})
   );
@@ -103,9 +106,9 @@ test('success fetch gists', () => {
       },
     })
   );
-  const gistId = gistsResponse[0].id;
+  const resGistId = gistsResponse[0].id;
   const expected = {
-    [gistId]: gistsResponse[0],
+    [resGistId]: gistsResponse[0],
   };
   expect(state.loading).toBe(false);
   expect(state.gists).toEqual(expected);
@@ -133,6 +136,7 @@ test('start fetch  public gists', () => {
     {
       ...gistsInitialState,
       loading: false,
+      error,
     },
     fetchPublicGistsAsyncAction.started({})
   );
@@ -154,9 +158,9 @@ test('success fetch public gists', () => {
       },
     })
   );
-  const gistId = gistsResponse[0].id;
+  const resGistId = gistsResponse[0].id;
   const expected = {
-    [gistId]: gistsResponse[0],
+    [resGistId]: gistsResponse[0],
   };
   expect(state.loading).toBe(false);
   expect(state.gists).toEqual(expected);
@@ -184,6 +188,7 @@ test('start fetch user gists', () => {
     {
       ...gistsInitialState,
       loading: false,
+      error,
     },
     fetchUserGistsAsyncAction.started({
       userName,
@@ -209,9 +214,9 @@ test('success fetch user gists', () => {
       },
     })
   );
-  const gistId = gistsResponse[0].id;
+  const resGistId = gistsResponse[0].id;
   const expected = {
-    [gistId]: gistsResponse[0],
+    [resGistId]: gistsResponse[0],
   };
   expect(state.loading).toBe(false);
   expect(state.gists).toEqual(expected);
@@ -228,6 +233,39 @@ test('failed fetch user gists', () => {
     fetchUserGistsAsyncAction.failed({
       params: {
         userName,
+      },
+      error,
+    })
+  );
+  expect(state.loading).toBe(false);
+  expect(state.error).toEqual(error);
+});
+
+test('start patch gist', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: false,
+      error,
+    },
+    patchEditGistAsyncAction.started({
+      gistId,
+    })
+  );
+  expect(state.loading).toBe(true);
+  expect(state.error).toBeNull();
+});
+
+test('failed fetch user gists', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+      loading: true,
+      error: null,
+    },
+    patchEditGistAsyncAction.failed({
+      params: {
+        gistId,
       },
       error,
     })
