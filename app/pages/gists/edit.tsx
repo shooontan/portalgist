@@ -108,6 +108,18 @@ class EditPage extends React.PureComponent<Props> {
     );
   };
 
+  onClickAdd = () => {
+    const { dispatch } = this.props;
+
+    dispatch(
+      editGistContent({
+        fileId: new Date().getTime().toString(), // uid???
+        fileName: '',
+        content: '',
+      })
+    );
+  };
+
   getHeader = () => {
     const { auth, owner } = this.props;
     const { id } = getQuery();
@@ -148,6 +160,9 @@ class EditPage extends React.PureComponent<Props> {
     });
 
     const Buttons = <ButtonLink onClick={this.onClick}>Update</ButtonLink>;
+    const bottomButtons = (
+      <ButtonLink onClick={this.onClickAdd}>Add</ButtonLink>
+    );
 
     const DescriptionEditor = (
       <CodeArea
@@ -163,6 +178,7 @@ class EditPage extends React.PureComponent<Props> {
         title="Edit"
         maxWidth={1200}
         topButtons={Buttons}
+        bottomButtons={bottomButtons}
         descriptionEditor={DescriptionEditor}
       >
         {Gists}

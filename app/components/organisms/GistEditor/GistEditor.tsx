@@ -48,6 +48,7 @@ class GistEditor extends React.PureComponent<Props, State> {
     } = this.props;
 
     const height = getLineCount(content);
+    const lang = language ? language.toLowerCase() : '';
 
     return (
       <Wrapper>
@@ -59,7 +60,7 @@ class GistEditor extends React.PureComponent<Props, State> {
           width="100%"
           height={`${height * this.lineHeight}`}
           value={content}
-          language={language.toLowerCase()}
+          language={lang}
           theme="vs-dark"
           options={{
             automaticLayout: true,

@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   descriptionEditor?: JSX.Element;
   topButtons?: JSX.Element;
+  bottomButtons?: JSX.Element;
 }
 
 export default class PageMain extends React.PureComponent<Props> {
@@ -22,6 +23,7 @@ export default class PageMain extends React.PureComponent<Props> {
       description,
       descriptionEditor,
       topButtons,
+      bottomButtons,
     } = this.props;
     return (
       <Wrapper data-maxwidth={this.props.maxWidth}>
@@ -34,6 +36,9 @@ export default class PageMain extends React.PureComponent<Props> {
         )}
         {description && <Description>{description}</Description>}
         {children}
+        {bottomButtons && (
+          <BottomButtonsWrapper>{bottomButtons}</BottomButtonsWrapper>
+        )}
       </Wrapper>
     );
   }
@@ -72,4 +77,11 @@ const Description = styled.p`
   margin: 0 24px;
   padding: 1em 0 0;
   color: #333;
+`;
+
+const BottomButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 24px;
+  padding-bottom: 2em;
 `;
