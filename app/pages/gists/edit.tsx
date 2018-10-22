@@ -5,6 +5,7 @@ import { RootState } from '~/reducers';
 import {
   fetchGistAction,
   editGistContent,
+  editGistDescription,
   patchEditGistAction,
 } from '~/actions/gistsAction';
 import {
@@ -19,12 +20,14 @@ import PageMain from '~/components/organisms/PageMain';
 import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
 import ButtonLink from '~/components/atoms/ButtonLink';
+import CodeArea from '~/components/atoms/CodeArea';
 
 interface Props {
   isServer: boolean;
   query: {
     id: string;
   };
+  description: string;
   files: GistGetResponseFiles;
   forks: GistGetResponseForks;
   history: GistGetResponseHistory;
@@ -74,8 +77,17 @@ class EditPage extends React.PureComponent<Props> {
     );
   };
 
+  handleChangeDescription = ({ target: { value } }) => {
+    const { dispatch } = this.props;
+    dispatch(
+      editGistDescription({
+        description: value,
+      })
+    );
+  };
+
   onClick = () => {
-    const { files, query, dispatch } = this.props;
+    const { description, files, query, dispatch } = this.props;
     const { id } = query;
     const newFiles = {};
 
@@ -91,6 +103,7 @@ class EditPage extends React.PureComponent<Props> {
       patchEditGistAction({
         gistId: id,
         files: newFiles,
+        description,
       })
     );
   };
@@ -121,7 +134,7 @@ class EditPage extends React.PureComponent<Props> {
   };
 
   getMain = () => {
-    const { files } = this.props;
+    const { description, files } = this.props;
     const Gists = Object.keys(files).map(fileName => {
       const file = files[fileName];
       return (
@@ -136,8 +149,22 @@ class EditPage extends React.PureComponent<Props> {
 
     const Buttons = <ButtonLink onClick={this.onClick}>Update</ButtonLink>;
 
+    const DescriptionEditor = (
+      <CodeArea
+        content={description}
+        dataWidth="100%"
+        dataMaxWidth="100%"
+        onChange={this.handleChangeDescription}
+      />
+    );
+
     return (
-      <PageMain title="Edit" maxWidth={1200} topButtons={Buttons}>
+      <PageMain
+        title="Edit"
+        maxWidth={1200}
+        topButtons={Buttons}
+        descriptionEditor={DescriptionEditor}
+      >
         {Gists}
       </PageMain>
     );
@@ -155,6 +182,7 @@ class EditPage extends React.PureComponent<Props> {
 
 export default connect((state: RootState) => ({
   auth: state.auth,
+  description: state.gists.gist.description,
   files: state.gists.gist.files,
   forks: state.gists.gist.forks,
   history: state.gists.gist.history,

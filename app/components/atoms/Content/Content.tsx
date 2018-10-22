@@ -26,7 +26,6 @@ const Content = (props: Props) => {
 export default Content;
 
 const Wrapper = styled.div`
-  margin-bottom: 2em;
   padding: 10px 0 10px 6px;
   background: #13262d;
   border-top: 1px solid #aaa;

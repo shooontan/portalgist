@@ -3,12 +3,14 @@ import styled from 'styled-components';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   content: string;
+  dataWidth?: string;
+  dataMaxWidth?: string;
 }
 
 const CodeArea = (props: Props) => {
-  const { content } = props;
+  const { dataWidth, dataMaxWidth, content } = props;
   return (
-    <Wrapper>
+    <Wrapper data-width={dataWidth} data-maxwidth={dataMaxWidth}>
       <TextArea value={content} {...props} />
     </Wrapper>
   );
@@ -18,8 +20,8 @@ export default CodeArea;
 
 const Wrapper = styled.div`
   display: inline-block;
-  width: 60%;
-  max-width: 600px;
+  width: ${props => props['data-width'] || '60%'};
+  max-width: ${props => props['data-maxwidth'] || '600px'};
   border: 2px solid #eee;
   border-radius: 3px;
   overflow: hidden;

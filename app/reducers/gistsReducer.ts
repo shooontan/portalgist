@@ -5,6 +5,7 @@ import {
   fetchPublicGistsAsyncAction,
   fetchUserGistsAsyncAction,
   editGistContent,
+  editGistDescription,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -19,6 +20,7 @@ export interface GistsState {
     [key: string]: GistsGetAllResponseItem;
   };
   gist: {
+    description: string;
     files: GistGetResponseFiles;
     forks: GistGetResponseForks;
     history: GistGetResponseHistory;
@@ -36,6 +38,7 @@ export interface GistsState {
 export const gistsInitialState: GistsState = {
   gists: {},
   gist: {
+    description: '',
     files: {},
     forks: [],
     history: [],
@@ -105,10 +108,11 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     })
   )
   .case(fetchGistAsyncAction.done, (state, { result }) => {
-    const { files, forks, history, owner } = result;
+    const { description, files, forks, history, owner } = result;
     return {
       ...state,
       gist: {
+        description,
         files,
         forks,
         history,
@@ -131,6 +135,17 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     const gist = {
       ...state.gist,
       files: editFiles,
+    };
+
+    return {
+      ...state,
+      gist,
+    };
+  })
+  .case(editGistDescription, (state, { description }) => {
+    const gist = {
+      ...state.gist,
+      description,
     };
 
     return {

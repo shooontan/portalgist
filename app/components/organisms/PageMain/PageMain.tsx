@@ -5,6 +5,8 @@ import { Headline2 } from '~/components/atoms/Headline';
 interface Props {
   maxWidth: number;
   title: string;
+  description?: string;
+  descriptionEditor?: JSX.Element;
   topButtons?: JSX.Element;
 }
 
@@ -14,13 +16,23 @@ export default class PageMain extends React.PureComponent<Props> {
   };
 
   render() {
-    const { children, title, topButtons } = this.props;
+    const {
+      children,
+      title,
+      description,
+      descriptionEditor,
+      topButtons,
+    } = this.props;
     return (
       <Wrapper data-maxwidth={this.props.maxWidth}>
         <Header>
           <Headline>{title}</Headline>
           {topButtons && topButtons}
         </Header>
+        {descriptionEditor && (
+          <DescriptionEditor>{descriptionEditor}</DescriptionEditor>
+        )}
+        {description && <Description>{description}</Description>}
         {children}
       </Wrapper>
     );
@@ -49,4 +61,15 @@ const Header = styled.div`
   margin: 18px 24px 0 24px;
   padding: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
+`;
+
+const DescriptionEditor = styled.div`
+  margin: 0 24px;
+  padding: 1em 0;
+`;
+
+const Description = styled.p`
+  margin: 0 24px;
+  padding: 1em 0 0;
+  color: #333;
 `;

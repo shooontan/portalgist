@@ -14,8 +14,10 @@ const Gist = (props: Props) => {
   } = props;
   return (
     <Wrapper>
-      <Headline>{filename}</Headline>
-      {language && <Language>{language}</Language>}
+      <Header>
+        <Headline>{filename}</Headline>
+        {language && <Language>{language}</Language>}
+      </Header>
       <Content value={content} />
     </Wrapper>
   );
@@ -23,15 +25,27 @@ const Gist = (props: Props) => {
 
 export default Gist;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  padding-bottom: 2em;
+  border-bottom: 1px solid #ccc;
+
+  &:last-of-type {
+    border: none;
+  }
+`;
+
+const Header = styled.div`
+  margin: 0 24px;
+  padding: 1em 0;
+`;
 
 const Language = styled.p`
   margin: 0;
-  padding: 0 0 6px 1em;
+  padding: 0 0 6px;
   color: #666;
   font-size: 12px;
 `;
 
 const Headline = styled(Headline3)`
-  margin: 1em 24px;
+  margin: 1em 0;
 `;

@@ -81,6 +81,7 @@ test('should create fetchGist.started action', () => {
 
 test('should create fetchGist.done action', () => {
   const result = {
+    description: '',
     files: {},
     forks: [],
     history: [],

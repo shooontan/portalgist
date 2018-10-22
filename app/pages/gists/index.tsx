@@ -22,6 +22,7 @@ interface Props {
     id: string;
   };
   auth: RootState['auth'];
+  description: string;
   files: GistGetResponseFiles;
   forks: GistGetResponseForks;
   history: GistGetResponseHistory;
@@ -103,7 +104,7 @@ class GistPage extends React.PureComponent<Props> {
   };
 
   getMain = () => {
-    const { files } = this.props;
+    const { description, files } = this.props;
     const Gists = Object.keys(files).map(fileName => {
       const file = files[fileName];
       return <Gist file={file} key={fileName} />;
@@ -112,7 +113,7 @@ class GistPage extends React.PureComponent<Props> {
     const buttons = this.editLink();
 
     return (
-      <PageMain title="Gist" topButtons={buttons}>
+      <PageMain title="Gist" description={description} topButtons={buttons}>
         {Gists}
       </PageMain>
     );
@@ -134,6 +135,7 @@ class GistPage extends React.PureComponent<Props> {
 
 export default connect((state: RootState) => ({
   auth: state.auth,
+  description: state.gists.gist.description,
   files: state.gists.gist.files,
   forks: state.gists.gist.forks,
   history: state.gists.gist.history,

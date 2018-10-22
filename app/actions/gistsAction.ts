@@ -24,6 +24,7 @@ export const fetchGistsAsyncAction = actionCreator.async<
 export const fetchGistAsyncAction = actionCreator.async<
   { gistId: string },
   {
+    description: string;
     files: GistGetResponseFiles;
     forks: GistGetResponseForks;
     history: GistGetResponseHistory;
@@ -52,6 +53,11 @@ export const editGistContent = actionCreator<{
   fileName: string;
   content: string;
 }>('EDIT_GIST_CONTENT');
+
+// edit gist description
+export const editGistDescription = actionCreator<{
+  description: string;
+}>('EDIT_GIST_DESCRIPTION');
 
 // patch edit gist
 export const patchEditGistAsyncAction = actionCreator.async<
@@ -107,13 +113,14 @@ export const fetchGistAction = (gistId: string) => async (
 
   try {
     const { data } = await octokit.gists.get({ gist_id: gistId });
-    const { files, forks, history, owner } = data;
+    const { description, files, forks, history, owner } = data;
     dispatch(
       fetchGistAsyncAction.done({
         params: {
           gistId,
         },
         result: {
+          description,
           files,
           forks,
           history,
