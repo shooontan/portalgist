@@ -18,6 +18,7 @@ import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
 import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
+import ButtonLink from '~/components/atoms/ButtonLink';
 
 interface Props {
   isServer: boolean;
@@ -133,10 +134,11 @@ class EditPage extends React.PureComponent<Props> {
       );
     });
 
+    const Buttons = <ButtonLink onClick={this.onClick}>Update</ButtonLink>;
+
     return (
-      <PageMain title="Edit" maxWidth={1200}>
+      <PageMain title="Edit" maxWidth={1200} topButtons={Buttons}>
         {Gists}
-        <button onClick={this.onClick}>update</button>
       </PageMain>
     );
   };

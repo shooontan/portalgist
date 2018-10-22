@@ -51,13 +51,16 @@ class GistEditor extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        <CodeArea content={filename} onChange={this.handleChangeFileName} />
-        {language && <Language>{language}</Language>}
+        <Header>
+          {language && <Language>{language}</Language>}
+          <CodeArea content={filename} onChange={this.handleChangeFileName} />
+        </Header>
         <MonacoEditor
           width="100%"
           height={`${height * this.lineHeight}`}
           value={content}
-          language={language}
+          language={language.toLowerCase()}
+          theme="vs-dark"
           options={{
             automaticLayout: true,
             scrollBeyondLastLine: false,
@@ -79,10 +82,22 @@ class GistEditor extends React.PureComponent<Props, State> {
 export default GistEditor;
 
 const Wrapper = styled.div`
-  padding: 0.5em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #ccc;
+
+  &:last-of-type {
+    border: none;
+  }
 `;
 
 const Language = styled.p`
+  margin: 0;
+  padding: 1em 0 0.5em;
   color: #666;
   font-size: 12px;
+`;
+
+const Header = styled.div`
+  margin: 0 24px;
+  padding: 1em 0;
 `;

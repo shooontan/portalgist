@@ -5,6 +5,7 @@ import { Headline2 } from '~/components/atoms/Headline';
 interface Props {
   maxWidth: number;
   title: string;
+  topButtons?: JSX.Element;
 }
 
 export default class PageMain extends React.PureComponent<Props> {
@@ -13,10 +14,13 @@ export default class PageMain extends React.PureComponent<Props> {
   };
 
   render() {
-    const { children, title } = this.props;
+    const { children, title, topButtons } = this.props;
     return (
       <Wrapper data-maxwidth={this.props.maxWidth}>
-        <Headline>{title}</Headline>
+        <Header>
+          <Headline>{title}</Headline>
+          {topButtons && topButtons}
+        </Header>
         {children}
       </Wrapper>
     );
@@ -33,7 +37,16 @@ const Wrapper = styled.div`
 `;
 
 const Headline = styled(Headline2)`
-  margin: 18px 24px 0;
+  display: flex;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  display: flex;
+  margin: 18px 24px 0 24px;
   padding: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
 `;

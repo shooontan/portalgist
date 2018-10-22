@@ -1,21 +1,33 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   content: string;
 }
 
 const CodeArea = (props: Props) => {
   const { content } = props;
-  const rows = content.split(/\r|\r\n|\n/).length;
-  return <TextArea value={content} rows={rows} {...props} />;
+  return (
+    <Wrapper>
+      <TextArea value={content} {...props} />
+    </Wrapper>
+  );
 };
 
 export default CodeArea;
 
-const TextArea = styled.textarea`
+const Wrapper = styled.div`
+  display: inline-block;
+  width: 60%;
+  max-width: 600px;
+  border: 2px solid #eee;
+  border-radius: 3px;
+  overflow: hidden;
+`;
+
+const TextArea = styled.input`
+  padding: 0.6em;
   width: 100%;
-  font-size: 12px;
-  outline: 0;
+  border: none;
   resize: none;
 `;

@@ -12,7 +12,7 @@ import {
 } from '~/libs/octokit';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
-import PageMainGist from '~/components/organisms/PageMainGist';
+import PageMain from '~/components/organisms/PageMain';
 import ButtonLink from '~/components/atoms/ButtonLink';
 import getQuery from '~/helpers/getQuery';
 
@@ -109,7 +109,13 @@ class GistPage extends React.PureComponent<Props> {
       return <Gist file={file} key={fileName} />;
     });
 
-    return <PageMainGist editLink={this.editLink()}>{Gists}</PageMainGist>;
+    const buttons = this.editLink();
+
+    return (
+      <PageMain title="Gist" topButtons={buttons}>
+        {Gists}
+      </PageMain>
+    );
   };
 
   render() {
