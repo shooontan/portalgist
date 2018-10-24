@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import pure from 'recompose/pure';
 import { Wrapper } from '~/components/molecules/GistItem';
 
-const GistItemLoading = () => {
+const Loading = () => {
   return (
     <Wrapper>
       <LoadingBar data-height={18} data-width={300} />
@@ -11,6 +11,20 @@ const GistItemLoading = () => {
       <LoadingBar data-height={16} data-delay={0.3} data-width={400} />
     </Wrapper>
   );
+};
+
+interface Props {
+  items?: number;
+}
+
+const GistItemLoading = (props: Props) => {
+  const { items } = props;
+  const Loaings = [...Array(items)].map((__, index) => <Loading key={index} />);
+  return <>{Loaings}</>;
+};
+
+GistItemLoading.defaulProps = {
+  items: 1,
 };
 
 export default pure(GistItemLoading);

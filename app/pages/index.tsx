@@ -57,17 +57,7 @@ class IndexPage extends React.PureComponent<Props> {
     let GistItems = null;
 
     if (loading) {
-      GistItems = (
-        <>
-          <GistItemLoading />
-          <GistItemLoading />
-          <GistItemLoading />
-          <GistItemLoading />
-          <GistItemLoading />
-          <GistItemLoading />
-          <GistItemLoading />
-        </>
-      );
+      GistItems = <GistItemLoading items={6} />;
     } else {
       GistItems = this.props.gists.timeline.map(gistId => {
         const gist = this.props.gists.gists[gistId];
