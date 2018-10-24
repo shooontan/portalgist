@@ -7,6 +7,7 @@ import {
   editGistContent,
   editGistDescription,
   patchEditGistAsyncAction,
+  addGistAction,
 } from '~/actions/gistsAction';
 import {
   GistsGetAllResponseItem,
@@ -155,6 +156,29 @@ const gistsReducer = reducerWithInitialState(gistsInitialState)
     return {
       ...state,
       gist,
+    };
+  })
+  .case(addGistAction, (state, { gistId }) => {
+    const addFiles = {
+      [gistId]: {
+        filename: '',
+        type: 'text/plain',
+        language: 'Text',
+        raw_url: '',
+        size: 0,
+        truncated: false,
+        content: '',
+      },
+    };
+
+    const addGist = {
+      ...gistsInitialState.gist,
+      files: addFiles,
+    };
+
+    return {
+      ...state,
+      gist: addGist,
     };
   });
 

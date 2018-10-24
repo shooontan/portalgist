@@ -4,6 +4,7 @@ import {
   fetchPublicGistsAsyncAction,
   fetchUserGistsAsyncAction,
   patchEditGistAsyncAction,
+  addGistAction,
 } from '~/actions/gistsAction';
 
 const gistsResponse = [
@@ -272,4 +273,26 @@ test('failed fetch user gists', () => {
   );
   expect(state.loading).toBe(false);
   expect(state.error).toEqual(error);
+});
+
+test('add local gist', () => {
+  const state = reducer(
+    {
+      ...gistsInitialState,
+    },
+    addGistAction({
+      gistId,
+    })
+  );
+  expect(state.gist.files).toEqual({
+    [gistId]: {
+      filename: '',
+      type: 'text/plain',
+      language: 'Text',
+      raw_url: '',
+      size: 0,
+      truncated: false,
+      content: '',
+    },
+  });
 });

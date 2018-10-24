@@ -8,7 +8,9 @@ import octokit, {
   GistGetResponseForks,
   GistGetResponseOwner,
   GistPatchEditResponse,
+  GistPostResponse,
 } from '~/libs/octokit';
+import { RootState } from '~/reducers';
 
 const GIST_PREFIX = '@@GIST';
 const actionCreator = actionCreatorFactory(GIST_PREFIX);
@@ -58,6 +60,32 @@ export const editGistContent = actionCreator<{
 export const editGistDescription = actionCreator<{
   description: string;
 }>('EDIT_GIST_DESCRIPTION');
+
+// add new local gist
+export const addGistAction = actionCreator<{
+  gistId: string;
+}>('ADD_GIST');
+
+// post gist
+export const postGistAsyncAction = actionCreator.async<
+  {
+    files: {
+      [key: string]: {
+        content: string;
+        filename: string;
+      };
+    };
+    description?: string;
+    publicGist?: boolean;
+  },
+  {
+    data: GistPostResponse;
+  },
+  {
+    code: number;
+    message: string;
+  }
+>('POST_GIST_ASYNC');
 
 // patch edit gist
 export const patchEditGistAsyncAction = actionCreator.async<
@@ -120,7 +148,7 @@ export const fetchGistAction = (gistId: string) => async (
           gistId,
         },
         result: {
-          description,
+          description: description || '',
           files,
           forks,
           history,
@@ -252,6 +280,76 @@ export const patchEditGistAction = ({
           gistId,
           description,
           files,
+        },
+        error: {
+          code,
+          message,
+        },
+      })
+    );
+  }
+};
+
+export const postGistAction = ({
+  files,
+  description,
+  publicGist,
+}: {
+  files?: {
+    [key: string]: {
+      content: string;
+      filename: string;
+    };
+  };
+  description?: string;
+  publicGist?: boolean;
+}) => async (dispatch: Dispatch, getState: () => RootState) => {
+  dispatch(
+    postGistAsyncAction.started({
+      files,
+      description,
+      publicGist,
+    })
+  );
+
+  // to-do fetch cache
+
+  try {
+    const { data } = await octokit.gists.create({
+      files,
+      description,
+      public: publicGist,
+    });
+
+    await dispatch(
+      postGistAsyncAction.done({
+        params: {
+          files,
+          description,
+          publicGist,
+        },
+        result: {
+          data,
+        },
+      })
+    );
+
+    const { auth } = getState();
+
+    Router.push({
+      pathname: '/user',
+      query: {
+        name: auth.userName,
+      },
+    });
+  } catch (error) {
+    const { code, message } = error;
+    dispatch(
+      postGistAsyncAction.failed({
+        params: {
+          files,
+          description,
+          publicGist,
         },
         error: {
           code,

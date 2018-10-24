@@ -7,6 +7,7 @@ import {
   GistsGetResponseHistoryItem,
   GistsGetResponseOwner as OriginalGistsGetResponseOwner,
   GistsEditResponse,
+  GistsCreateResponse,
 } from '@octokit/rest';
 import { Overwrite } from 'typelevel-ts';
 
@@ -69,6 +70,18 @@ export type GistGetResponse = Overwrite<
 // response
 export type GistPatchEditResponse = Overwrite<
   GistsEditResponse,
+  {
+    files: GistGetResponseFiles;
+  }
+>;
+
+/**
+ * [post] /gists
+ */
+
+// response
+export type GistPostResponse = Overwrite<
+  GistsCreateResponse,
   {
     files: GistGetResponseFiles;
   }

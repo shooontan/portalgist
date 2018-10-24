@@ -261,6 +261,106 @@ test('should create fetchUserGists.failed action', () => {
   expect(actions[0]).toEqual(expected);
 });
 
+test('should create addGistAction action', () => {
+  const store = mockStore({});
+  store.dispatch(act.addGistAction({ gistId }));
+  const actions = store.getActions();
+  const expected = {
+    type: act.addGistAction.type,
+    payload: {
+      gistId,
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create postGistAsyncAction.started action', () => {
+  const files = {
+    uid: {
+      content: 'content',
+      filename: 'filename',
+    },
+  };
+  const store = mockStore({});
+  store.dispatch(act.postGistAsyncAction.started({ files }));
+  const actions = store.getActions();
+  const expected = {
+    type: act.postGistAsyncAction.started.type,
+    payload: {
+      files,
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create postGistAsyncAction.done action', () => {
+  const files = {
+    uid: {
+      content: 'content',
+      filename: 'filename',
+    },
+  };
+  const store = mockStore({});
+  const data = {} as any;
+  store.dispatch(
+    act.postGistAsyncAction.done({
+      params: {
+        files,
+      },
+      result: {
+        data,
+      },
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.postGistAsyncAction.done.type,
+    payload: {
+      params: {
+        files,
+      },
+      result: {
+        data,
+      },
+    },
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
+test('should create postGistAsyncAction.failed action', () => {
+  const files = {
+    uid: {
+      content: 'content',
+      filename: 'filename',
+    },
+  };
+  const store = mockStore({});
+  const error = {
+    code: 400,
+    message: 'error!!!',
+  };
+  store.dispatch(
+    act.postGistAsyncAction.failed({
+      params: {
+        files,
+      },
+      error,
+    })
+  );
+  const actions = store.getActions();
+  const expected = {
+    type: act.postGistAsyncAction.failed.type,
+    payload: {
+      params: {
+        files,
+      },
+      error,
+    },
+    error: true,
+  };
+  expect(actions[0]).toEqual(expected);
+});
+
 // test('success fetch gists async action', () => {
 //   const store = mockStore({});
 //   // @ts-ignore

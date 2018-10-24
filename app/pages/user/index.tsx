@@ -12,6 +12,7 @@ import {
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
+import ButtonLink from '~/components/atoms/ButtonLink';
 import GistItemLoading from '~/components/molecules/GistItemLoading';
 import getQuery from '~/helpers/getQuery';
 
@@ -117,7 +118,7 @@ class UserPage extends React.PureComponent<Props> {
   };
 
   getMain = () => {
-    const { gists } = this.props;
+    const { gists, auth } = this.props;
     const { timeline, loading } = gists;
     const firstGistId = timeline[0];
     if (!firstGistId) {
@@ -149,7 +150,25 @@ class UserPage extends React.PureComponent<Props> {
       });
     }
 
-    return <PageMain title={login}>{GistItems}</PageMain>;
+    // add button with own user page
+    let buttons = null;
+    if (auth && auth.userName === login) {
+      buttons = (
+        <ButtonLink
+          href={{
+            pathname: '/gists/add',
+          }}
+        >
+          Add
+        </ButtonLink>
+      );
+    }
+
+    return (
+      <PageMain title={login} topButtons={buttons}>
+        {GistItems}
+      </PageMain>
+    );
   };
 
   render() {
