@@ -186,6 +186,7 @@ class AddPage extends React.PureComponent<Props> {
         dataWidth="100%"
         dataMaxWidth="100%"
         onChange={this.handleChangeDescription}
+        placeholder="description"
       />
     );
 

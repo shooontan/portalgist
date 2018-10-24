@@ -75,12 +75,12 @@ export const Wrapper = styled.article`
   flex-direction: column;
   border-bottom: 1px solid #ccc;
 
-  &:first-of-type {
-    padding-top: 1.8em;
-  }
-
   &:last-of-type {
     border: none;
+  }
+
+  @media (max-width: 600px) {
+    padding: 1em 16px;
   }
 `;
 

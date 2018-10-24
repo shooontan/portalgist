@@ -24,7 +24,7 @@ interface State {
 }
 
 class GistEditor extends React.PureComponent<Props, State> {
-  lineHeight = 18;
+  lineHeight = 19;
 
   handleChangeFileName = ({ target: { value } }) => {
     const {
@@ -54,7 +54,11 @@ class GistEditor extends React.PureComponent<Props, State> {
       <Wrapper>
         <Header>
           {language && <Language>{language}</Language>}
-          <CodeArea content={filename} onChange={this.handleChangeFileName} />
+          <CodeArea
+            content={filename}
+            onChange={this.handleChangeFileName}
+            placeholder="file name"
+          />
         </Header>
         <MonacoEditor
           width="100%"
@@ -84,11 +88,7 @@ export default GistEditor;
 
 const Wrapper = styled.div`
   padding-bottom: 2em;
-  border-bottom: 1px solid #ccc;
-
-  &:last-of-type {
-    border: none;
-  }
+  border-top: 1px solid #ccc;
 `;
 
 const Language = styled.p`
@@ -101,4 +101,8 @@ const Language = styled.p`
 const Header = styled.div`
   margin: 0 24px;
   padding: 1em 0;
+
+  @media (max-width: 600px) {
+    margin: 0 16px;
+  }
 `;

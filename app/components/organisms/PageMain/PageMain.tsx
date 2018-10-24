@@ -51,12 +51,17 @@ const Wrapper = styled.div`
 `;
 
 const Inner = styled.div`
-  margin: 60px auto 30px;
+  margin: 40px auto 30px;
   width: 100%;
   max-width: ${props => `${props['data-maxwidth']}px`};
   background: #fafafa;
   border-radius: 8px;
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+
+  @media (max-width: 600px) {
+    margin: 20px auto 30px;
+  }
 `;
 
 const Headline = styled(Headline2)`
@@ -72,17 +77,29 @@ const Header = styled.div`
   margin: 18px 24px 0 24px;
   padding: 0 0 0.5em;
   border-bottom: 1px solid #ccc;
+
+  @media (max-width: 600px) {
+    margin: 16px 16px 0;
+  }
 `;
 
 const DescriptionEditor = styled.div`
   margin: 0 24px;
   padding: 1em 0;
+
+  @media (max-width: 600px) {
+    margin: 0 16px;
+  }
 `;
 
 const Description = styled.p`
   margin: 0 24px;
   padding: 1em 0 0;
   color: #333;
+
+  @media (max-width: 600px) {
+    margin: 0 16px;
+  }
 `;
 
 const BottomButtonsWrapper = styled.div`

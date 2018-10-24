@@ -143,6 +143,8 @@ const Inner = styled.div`
   max-width: 1000px;
   display: flex;
   align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
 `;
 
 const Navi = styled.nav`
@@ -174,7 +176,7 @@ const Arrow = styled.span`
 `;
 
 const UserIconWrapper = styled.div`
-  padding: 1em 0 1em 1em;
+  padding: 1em 6px 1em 1em;
 `;
 
 const UserIcon = styled(Icon)`

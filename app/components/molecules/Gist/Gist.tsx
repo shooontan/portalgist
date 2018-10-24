@@ -37,6 +37,10 @@ const Wrapper = styled.div`
 const Header = styled.div`
   margin: 0 24px;
   padding: 1em 0;
+
+  @media (max-width: 600px) {
+    margin: 0 16px;
+  }
 `;
 
 const Language = styled.p`

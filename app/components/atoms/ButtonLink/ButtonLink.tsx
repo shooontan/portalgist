@@ -61,8 +61,10 @@ ButtonLink.defaultProps = {
 export default ButtonLink;
 
 const baseCss = css`
+  margin: 0 4px;
   padding: 8px 1.8em;
   background: #089e92;
+  border: none;
   border-radius: 2em;
   color: #fafafa;
   font-weight: bold;
