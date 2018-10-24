@@ -6,6 +6,7 @@ import { GistsState } from '~/reducers/gistsReducer';
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
+import PageFooter from '~/components/organisms/PageFooter';
 import { fetchPublicGistsAction } from '~/actions/gistsAction';
 import GistItem from '~/components/molecules/GistItem';
 import GistItemLoading from '~/components/molecules/GistItemLoading';
@@ -78,7 +79,13 @@ class IndexPage extends React.PureComponent<Props> {
   };
 
   render() {
-    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
+    return (
+      <TemplateBase
+        header={this.getHeader()}
+        main={this.getMain()}
+        footer={<PageFooter />}
+      />
+    );
   }
 }
 

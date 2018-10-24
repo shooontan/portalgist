@@ -13,6 +13,7 @@ import {
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
+import PageFooter from '~/components/organisms/PageFooter';
 import ButtonLink from '~/components/atoms/ButtonLink';
 import getQuery from '~/helpers/getQuery';
 
@@ -124,7 +125,13 @@ class GistPage extends React.PureComponent<Props> {
       );
     }
 
-    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
+    return (
+      <TemplateBase
+        header={this.getHeader()}
+        main={this.getMain()}
+        footer={<PageFooter />}
+      />
+    );
   }
 }
 

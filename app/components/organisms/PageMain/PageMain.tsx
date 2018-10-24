@@ -26,26 +26,32 @@ export default class PageMain extends React.PureComponent<Props> {
       bottomButtons,
     } = this.props;
     return (
-      <Wrapper data-maxwidth={this.props.maxWidth}>
-        <Header>
-          <Headline>{title}</Headline>
-          {topButtons && topButtons}
-        </Header>
-        {descriptionEditor && (
-          <DescriptionEditor>{descriptionEditor}</DescriptionEditor>
-        )}
-        {description && <Description>{description}</Description>}
-        {children}
-        {bottomButtons && (
-          <BottomButtonsWrapper>{bottomButtons}</BottomButtonsWrapper>
-        )}
+      <Wrapper>
+        <Inner data-maxwidth={this.props.maxWidth}>
+          <Header>
+            <Headline>{title}</Headline>
+            {topButtons && topButtons}
+          </Header>
+          {descriptionEditor && (
+            <DescriptionEditor>{descriptionEditor}</DescriptionEditor>
+          )}
+          {description && <Description>{description}</Description>}
+          {children}
+          {bottomButtons && (
+            <BottomButtonsWrapper>{bottomButtons}</BottomButtonsWrapper>
+          )}
+        </Inner>
       </Wrapper>
     );
   }
 }
 
 const Wrapper = styled.div`
-  margin: 60px auto 0;
+  flex: 1;
+`;
+
+const Inner = styled.div`
+  margin: 60px auto 30px;
   width: 100%;
   max-width: ${props => `${props['data-maxwidth']}px`};
   background: #fafafa;

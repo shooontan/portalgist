@@ -17,6 +17,7 @@ import {
 import TemplateBase from '~/components/templates/TemplateBase';
 import PageHeader from '~/components/organisms/PageHeader';
 import PageMain from '~/components/organisms/PageMain';
+import PageFooter from '~/components/organisms/PageFooter';
 import GistEditor from '~/components/organisms/GistEditor';
 import ButtonLink from '~/components/atoms/ButtonLink';
 import CodeArea from '~/components/atoms/CodeArea';
@@ -207,7 +208,13 @@ class AddPage extends React.PureComponent<Props> {
       return <div>no gists data</div>;
     }
 
-    return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
+    return (
+      <TemplateBase
+        header={this.getHeader()}
+        main={this.getMain()}
+        footer={<PageFooter />}
+      />
+    );
   }
 }
 
