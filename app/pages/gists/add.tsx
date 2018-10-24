@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Router from 'next/router';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from '~/reducers';
@@ -21,6 +20,7 @@ import PageMain from '~/components/organisms/PageMain';
 import GistEditor from '~/components/organisms/GistEditor';
 import ButtonLink from '~/components/atoms/ButtonLink';
 import CodeArea from '~/components/atoms/CodeArea';
+import withAuth from '~/components/organisms/withAuth';
 import uid from '~/helpers/uid';
 
 interface Props {
@@ -38,7 +38,7 @@ interface Props {
   dispatch: ThunkDispatch<any, any, any>;
 }
 
-class AppPage extends React.PureComponent<Props> {
+class AddPage extends React.PureComponent<Props> {
   static async getInitialProps(Context) {
     const { req, store } = Context;
     const { dispatch }: { dispatch: ThunkDispatch<any, any, any> } = store;
@@ -119,12 +119,6 @@ class AppPage extends React.PureComponent<Props> {
         publicGist,
       })
     );
-
-    // redirect user page
-    Router.push({
-      pathname: '/user',
-      query: { name: userName },
-    });
   };
 
   onClickAdd = () => {
@@ -217,6 +211,8 @@ class AppPage extends React.PureComponent<Props> {
   }
 }
 
+const AddPageWithAuth = withAuth(AddPage);
+
 export default connect((state: RootState) => ({
   auth: state.auth,
   description: state.gists.gist.description,
@@ -224,4 +220,4 @@ export default connect((state: RootState) => ({
   forks: state.gists.gist.forks,
   history: state.gists.gist.history,
   owner: state.gists.gist.owner,
-}))(AppPage);
+}))(AddPageWithAuth);

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Router from 'next/router';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from '~/reducers';
@@ -21,12 +22,10 @@ import getQuery from '~/helpers/getQuery';
 import GistEditor from '~/components/organisms/GistEditor';
 import ButtonLink from '~/components/atoms/ButtonLink';
 import CodeArea from '~/components/atoms/CodeArea';
+import withAuth from '~/components/organisms/withAuth';
 
 interface Props {
   isServer: boolean;
-  query: {
-    id: string;
-  };
   description: string;
   files: GistGetResponseFiles;
   forks: GistGetResponseForks;
@@ -46,7 +45,6 @@ class EditPage extends React.PureComponent<Props> {
     if (req) {
       return {
         isServer: true,
-        query,
       };
     }
 
@@ -54,7 +52,6 @@ class EditPage extends React.PureComponent<Props> {
 
     return {
       isServer: false,
-      query,
     };
   }
 
@@ -87,8 +84,8 @@ class EditPage extends React.PureComponent<Props> {
   };
 
   onClick = () => {
-    const { description, files, query, dispatch } = this.props;
-    const { id } = query;
+    const { description, files, dispatch } = this.props;
+    const { id } = getQuery();
     const newFiles = {};
 
     Object.keys(files).forEach(fileId => {
@@ -101,7 +98,7 @@ class EditPage extends React.PureComponent<Props> {
 
     dispatch(
       patchEditGistAction({
-        gistId: id,
+        gistId: id.toString(),
         files: newFiles,
         description,
       })
@@ -186,15 +183,38 @@ class EditPage extends React.PureComponent<Props> {
     );
   };
 
+  isOwnGist = () => {
+    const { auth, owner } = this.props;
+    if (!auth || !owner) {
+      return true;
+    }
+    const { id } = owner;
+    const { userId } = auth;
+    if (id && userId) {
+      if (id.toString() !== userId) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   render() {
     const { files, error } = this.props;
     if (error || !files) {
       return <div>no gists data</div>;
     }
 
+    // others gist
+    if (!this.isOwnGist()) {
+      Router.replace('/');
+      return null;
+    }
+
     return <TemplateBase header={this.getHeader()} main={this.getMain()} />;
   }
 }
+
+const EditPageWithAuth = withAuth(EditPage);
 
 export default connect((state: RootState) => ({
   auth: state.auth,
@@ -203,4 +223,4 @@ export default connect((state: RootState) => ({
   forks: state.gists.gist.forks,
   history: state.gists.gist.history,
   owner: state.gists.gist.owner,
-}))(EditPage);
+}))(EditPageWithAuth);

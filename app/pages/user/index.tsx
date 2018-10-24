@@ -20,9 +20,6 @@ type Dispatch = ThunkDispatch<any, any, any>;
 
 interface Props {
   isServer: boolean;
-  query: {
-    name: string;
-  };
   auth: RootState['auth'];
   files: GistGetResponseFiles;
   forks: GistGetResponseForks;
@@ -46,7 +43,6 @@ class UserPage extends React.PureComponent<Props> {
     if (req) {
       return {
         isServer: true,
-        query,
       };
     }
 
@@ -60,7 +56,6 @@ class UserPage extends React.PureComponent<Props> {
 
     return {
       isServer: false,
-      query,
     };
   }
 

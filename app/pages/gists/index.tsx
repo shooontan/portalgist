@@ -18,9 +18,6 @@ import getQuery from '~/helpers/getQuery';
 
 interface Props {
   isServer: boolean;
-  query: {
-    id: string;
-  };
   auth: RootState['auth'];
   description: string;
   files: GistGetResponseFiles;
@@ -40,7 +37,6 @@ class GistPage extends React.PureComponent<Props> {
     if (req) {
       return {
         isServer: true,
-        query,
       };
     }
 
@@ -48,7 +44,6 @@ class GistPage extends React.PureComponent<Props> {
 
     return {
       isServer: false,
-      query,
     };
   }
 
